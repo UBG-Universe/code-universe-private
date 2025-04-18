@@ -63,37 +63,58 @@
         }
     </style>
     <script>
-        const defaultKey = "'"; // Default key for removing cookies
+        const defaultKey = "'"; // Default remover key
         let currentKey = defaultKey;
 
         function getRemoverKeyFromCookie() {
             const cookies = document.cookie.split("; ");
             const keyCookie = cookies.find(row => row.startsWith("removerKey="));
-            return keyCookie ? keyCookie.split("=")[1] : defaultKey;
+            return keyCookie ? decodeURIComponent(keyCookie.split("=")[1]) : defaultKey;
+        }
+
+        function setRemoverKey(newKey) {
+            if (newKey) {
+                document.cookie = `removerKey=${encodeURIComponent(newKey)}; path=/;`;
+                currentKey = newKey;
+                window.location.href = "/check/index.html"; // Redirect immediately after setting the key
+            }
+        }
+
+        function deleteCookieAndRedirect() {
+            document.cookie = "access=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
+            window.location.href = "/check/index.html"; // Redirect to the updated page
+        }
+
+        function keyHandler(event) {
+            currentKey = getRemoverKeyFromCookie(); // Ensure correct key is checked
+            if (event.key === currentKey) {
+                deleteCookieAndRedirect(); // Trigger removal and redirect
+            }
         }
 
         function checkCookie() {
             const cookies = document.cookie.split("; ");
             const cookie = cookies.find(row => row.startsWith("access="));
             if (!cookie || cookie.split("=")[1] !== "1") {
-                window.location.href = "/index.html"; // Redirect to Main Page
+                window.location.href = "/index.html"; // Redirect to Main Page if access is invalid
             } else {
-                document.body.style.display = "block"; // Show content if access is valid
+                document.body.style.display = "block"; // Show page content if access is valid
             }
         }
 
-        function setRemoverKey(newKey) {
-            document.cookie = `removerKey=${newKey}; path=/;`;
-            currentKey = newKey;
-            alert(`Remover key updated to: ${currentKey}`);
-        }
+        window.onload = function() {
+            document.body.style.display = "none"; // Hide content until access is verified
+            currentKey = getRemoverKeyFromCookie();
+            checkCookie();
+            document.addEventListener("keydown", keyHandler); // Attach key listener
+        };
     </script>
 </head>
 <body>
     <div class="container">
         <h1>Welcome to the Website!</h1>
         <p>You have successfully activated access and can now browse protected content.</p>
-        <button onclick="setRemoverKey(prompt('Enter new remover key:'))">Change Remover Key</button>
+        <button onclick="setRemoverKey(']')">Change Remover Key</button>
         <button onclick="window.location.href = '/updates.txt';">View Updates</button>
         
         <!-- Section for Custom Buttons -->
@@ -108,12 +129,5 @@
             Disclaimer: This website and its contents are provided for entertainment purposes only. We are not responsible for any misuse of the services offered, including violations of rules, policies, or laws that come to your location or institution. Accessing this website using devices or networks that are not personally owned, such as school property, is strictly prohibited. Use of this website during designated school hours is also not allowed. By using this website, you know that you are solely responsible for ensuring compliance with all applicable regulations.
         </p>
     </footer>
-    <script>
-        window.onload = function() {
-            document.body.style.display = "none"; // Hide content until access is verified
-            currentKey = getRemoverKeyFromCookie();
-            checkCookie();
-        };
-    </script>
 </body>
 </html>
