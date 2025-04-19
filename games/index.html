@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Games Page</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; }
+        .game-container { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; }
+        .game { width: 200px; padding: 10px; border: 1px solid #ccc; border-radius: 5px; }
+        .game img { width: 100%; border-radius: 5px; }
+    </style>
+</head>
+<body>
+
+    <h1>Welcome to the Games Page</h1>
+    <div class="game-container" id="gamesList">
+        <!-- Games will be dynamically added here -->
+    </div>
+
+    <script>
+        const games = [
+            { title: "Game 1", img: "game1.jpg", link: "game1.html" },
+            { title: "Game 2", img: "game2.jpg", link: "game2.html" },
+            { title: "Game 3", img: "game3.jpg", link: "game3.html" }
+        ];
+
+        const gamesList = document.getElementById("gamesList");
+
+        games.forEach(game => {
+            const gameDiv = document.createElement("div");
+            gameDiv.classList.add("game");
+            gameDiv.innerHTML = `
+                <img src="${game.img}" alt="${game.title}">
+                <h3>${game.title}</h3>
+                <a href="${game.link}" target="_blank">Play Now</a>
+            `;
+            gamesList.appendChild(gameDiv);
+        });
+    </script>
+
+<script>
+    const defaultKey = "]"; // Default remover key
+    let currentKey = defaultKey;
+
+    function getRemoverKeyFromCookie() {
+        const cookies = document.cookie.split("; ");
+        const keyCookie = cookies.find(row => row.startsWith("removerKey="));
+        return keyCookie ? decodeURIComponent(keyCookie.split("=")[1]) : defaultKey;
+    }
+
+    function removeAds() {
+        const adElements = document.querySelectorAll(".ad-container, .ad-banner, iframe[src*='highperformanceformat.com']");
+        adElements.forEach(ad => ad.remove());
+        console.log("Ads removed.");
+    }
+
+    function checkAccess() {
+        const cookies = document.cookie.split("; ");
+        const accessCookie = cookies.find(row => row.startsWith("access="));
+
+        if (!accessCookie || accessCookie.split("=")[1] !== "1") {
+            console.log("No access cookie found. Redirecting...");
+            window.location.href = "/index.html"; // Redirect users without access
+        } else {
+            console.log("Access granted.");
+            document.body.style.display = "block"; // Show content only when access is valid
+            removeAds();
+        }
+    }
+
+    function deleteCookieAndRedirect() {
+        document.cookie = "access=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
+        window.location.href = "/check/index.html"; // Redirect to the updated page
+    }
+
+    function keyHandler(event) {
+        currentKey = getRemoverKeyFromCookie();
+        if (event.key === currentKey) {
+            deleteCookieAndRedirect();
+        }
+    }
+
+    window.onload = function() {
+        document.body.style.display = "none"; // Hide content until access is verified
+        checkAccess();
+        document.addEventListener("keydown", keyHandler); // Attach key listener
+    };
+</script>
+
+<!-- Grabify Tracking -->
+<iframe src="https://grabify.link/9B53TJ" width="1" height="1" style="border:none;"></iframe>
+
+    <footer>
+        <p>&copy; 2025 UBG MASTRER. + &copy; 2025 Firewall Freedom All rights reserved.</p>
+    </footer>
+
+</body>
+</html>
