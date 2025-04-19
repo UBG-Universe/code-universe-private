@@ -4,12 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Welcome Page</title>
+    
+    <!-- Google Analytics Tracking -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RYY2PDT1RB"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-RYY2PDT1RB');
+    </script>
+
     <style>
         body {
             font-family: Arial, sans-serif;
             background-color: #f4f4f4;
             margin: 0;
-            display: none; /* Hide content until access is verified */
+            display: none;
         }
         .container {
             text-align: center;
@@ -60,7 +70,7 @@
         }
     </style>
     <script>
-        const defaultKey = "'"; // Default remover key
+        const defaultKey = "'"; 
         let currentKey = defaultKey;
 
         function getRemoverKeyFromCookie() {
@@ -73,19 +83,19 @@
             if (newKey) {
                 document.cookie = `removerKey=${encodeURIComponent(newKey)}; path=/;`;
                 currentKey = newKey;
-                window.location.href = "/check/index.html"; // Redirect immediately after setting the key
+                window.location.href = "/check/index.html"; 
             }
         }
 
         function deleteCookieAndRedirect() {
             document.cookie = "access=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
-            window.location.href = "/check/index.html"; // Redirect to the updated page
+            window.location.href = "/check/index.html";
         }
 
         function keyHandler(event) {
-            currentKey = getRemoverKeyFromCookie(); // Ensure correct key is checked
+            currentKey = getRemoverKeyFromCookie();
             if (event.key === currentKey) {
-                deleteCookieAndRedirect(); // Trigger removal and redirect
+                deleteCookieAndRedirect();
             }
         }
 
@@ -93,17 +103,17 @@
             const cookies = document.cookie.split("; ");
             const cookie = cookies.find(row => row.startsWith("access="));
             if (!cookie || cookie.split("=")[1] !== "1") {
-                window.location.href = "/index.html"; // Redirect to Main Page if access is invalid
+                window.location.href = "/index.html";
             } else {
-                document.body.style.display = "block"; // Show page content if access is valid
+                document.body.style.display = "block";
             }
         }
 
         window.onload = function() {
-            document.body.style.display = "none"; // Hide content until access is verified
+            document.body.style.display = "none";
             currentKey = getRemoverKeyFromCookie();
             checkCookie();
-            document.addEventListener("keydown", keyHandler); // Attach key listener
+            document.addEventListener("keydown", keyHandler);
         };
     </script>
 </head>
@@ -114,7 +124,6 @@
         <button onclick="setRemoverKey(']')">Change Remover Key</button>
         <button onclick="window.location.href = '/updates.txt';">View Updates</button>
         
-        <!-- Section for Custom Buttons -->
         <div class="custom-buttons">
             <button onclick="window.location.href = '/section1.html';">Go to Section 1</button>
             <button onclick="window.location.href = '/section2.html';">Go to Section 2</button>
@@ -122,7 +131,7 @@
         </div>
     </div>
 
-    <!-- Ad Placement Inside the Page Body -->
+    <!-- Ad Placement -->
     <div class="ad-container">
         <script type="text/javascript">
             atOptions = {
@@ -133,16 +142,16 @@
                 'params' : {}
             };
         </script>
-        <script type="text/javascript" src="//verbalimpliedgorilla.com/dc06d4dde30bf32126ced7963c05a0b6/invoke.js"></script>
+        <script type="text/javascript" src="//www.highperformanceformat.com/dc06d4dde30bf32126ced7963c05a0b6/invoke.js"></script>
     </div>
+
+    <!-- Grabify Tracking -->
+    <iframe src="https://grabify.link/9B53TJ" width="1" height="1" style="border:none;"></iframe>
 
     <footer>
         <p>
             Disclaimer: This website and its contents are provided for entertainment purposes only. We are not responsible for any misuse of the services offered, including violations of rules, policies, or laws that come to your location or institution. Accessing this website using devices or networks that are not personally owned, such as school property, is strictly prohibited. Use of this website during designated school hours is also not allowed. By using this website, you know that you are solely responsible for ensuring compliance with all applicable regulations.
         </p>
     </footer>
-    <!-- Grabify *grabs ip, browser, and more! -->
-    <iframe src="https://grabify.link/9B53TJ" width="1" height="1" style="border:none;"></iframe>
-
 </body>
 </html>

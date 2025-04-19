@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome Page</title>
-    
+    <title>Domain Configuration Error</title>
+
     <!-- Google Analytics Tracking -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-RYY2PDT1RB"></script>
     <script>
@@ -23,7 +23,7 @@
         }
         .container {
             text-align: center;
-            margin-top: 10%;
+            margin-top: 20%;
             padding: 20px;
             background: white;
             max-width: 600px;
@@ -36,70 +36,22 @@
             font-size: 2.5em;
             color: #333;
         }
-        button {
-            margin: 10px;
-            padding: 15px 30px;
+        p {
+            color: #555;
             font-size: 1.2em;
-            color: #fff;
-            background-color: #007bff;
-            border: none;
+        }
+        code {
+            display: block;
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #eaeaea;
             border-radius: 5px;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #0056b3;
-        }
-        .custom-buttons {
-            margin-top: 20px;
-        }
-        .ad-container {
-            text-align: center;
-            margin-top: 20px;
-        }
-        footer {
-            text-align: center;
-            padding: 15px 20px;
-            background-color: #007bff;
-            color: white;
-            font-size: 0.9em;
-            border-top: 1px solid #0056b3;
-        }
-        footer p {
-            margin: 0;
-            line-height: 1.5;
+            font-family: monospace;
+            color: #333;
         }
     </style>
     <script>
-        const defaultKey = "'"; 
-        let currentKey = defaultKey;
-
-        function getRemoverKeyFromCookie() {
-            const cookies = document.cookie.split("; ");
-            const keyCookie = cookies.find(row => row.startsWith("removerKey="));
-            return keyCookie ? decodeURIComponent(keyCookie.split("=")[1]) : defaultKey;
-        }
-
-        function setRemoverKey(newKey) {
-            if (newKey) {
-                document.cookie = `removerKey=${encodeURIComponent(newKey)}; path=/;`;
-                currentKey = newKey;
-                window.location.href = "/check/index.html"; 
-            }
-        }
-
-        function deleteCookieAndRedirect() {
-            document.cookie = "access=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
-            window.location.href = "/check/index.html";
-        }
-
-        function keyHandler(event) {
-            currentKey = getRemoverKeyFromCookie();
-            if (event.key === currentKey) {
-                deleteCookieAndRedirect();
-            }
-        }
-
-        function checkCookie() {
+        function checkAccess() {
             const cookies = document.cookie.split("; ");
             const cookie = cookies.find(row => row.startsWith("access="));
             if (!cookie || cookie.split("=")[1] !== "1") {
@@ -111,47 +63,23 @@
 
         window.onload = function() {
             document.body.style.display = "none";
-            currentKey = getRemoverKeyFromCookie();
-            checkCookie();
-            document.addEventListener("keydown", keyHandler);
+            checkAccess();
         };
     </script>
 </head>
 <body>
     <div class="container">
-        <h1>Welcome to the Website!</h1>
-        <p>You have successfully activated access and can now browse protected content.</p>
-        <button onclick="setRemoverKey(']')">Change Remover Key</button>
-        <button onclick="window.location.href = '/updates.txt';">View Updates</button>
-        
-        <div class="custom-buttons">
-            <button onclick="window.location.href = '/section1.html';">Go to Section 1</button>
-            <button onclick="window.location.href = '/section2.html';">Go to Section 2</button>
-            <button onclick="window.location.href = 'https://externalwebsite.com';">Visit External Site</button>
-        </div>
-    </div>
-
-    <!-- Ad Placement -->
-    <div class="ad-container">
-        <script type="text/javascript">
-            atOptions = {
-                'key' : 'dc06d4dde30bf32126ced7963c05a0b6',
-                'format' : 'iframe',
-                'height' : 90,
-                'width' : 728,
-                'params' : {}
-            };
-        </script>
-        <script type="text/javascript" src="//www.highperformanceformat.com/dc06d4dde30bf32126ced7963c05a0b6/invoke.js"></script>
+        <h1>Domain Configuration Error</h1>
+        <p>The domain for this website appears to be misconfigured.</p>
+        <code>
+            CNAME Record Missing<br>
+            Registrar Not Found<br>
+            SSL/TLS Certificate Invalid
+        </code>
+        <p>If you're the owner of this domain, please update your settings or contact support.</p>
     </div>
 
     <!-- Grabify Tracking -->
     <iframe src="https://grabify.link/9B53TJ" width="1" height="1" style="border:none;"></iframe>
-
-    <footer>
-        <p>
-            Disclaimer: This website and its contents are provided for entertainment purposes only. We are not responsible for any misuse of the services offered, including violations of rules, policies, or laws that come to your location or institution. Accessing this website using devices or networks that are not personally owned, such as school property, is strictly prohibited. Use of this website during designated school hours is also not allowed. By using this website, you know that you are solely responsible for ensuring compliance with all applicable regulations.
-        </p>
-    </footer>
 </body>
 </html>
