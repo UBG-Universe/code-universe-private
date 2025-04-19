@@ -19,10 +19,9 @@
             font-family: Arial, sans-serif;
             background-color: #f4f4f4;
             margin: 0;
-            display: none;
+            text-align: center;
         }
         .container {
-            text-align: center;
             margin-top: 20%;
             padding: 20px;
             background: white;
@@ -54,18 +53,23 @@
         function checkAccess() {
             const cookies = document.cookie.split("; ");
             const cookie = cookies.find(row => row.startsWith("access="));
+            
             if (!cookie || cookie.split("=")[1] !== "1") {
-                window.location.href = "/index.html";
+                console.log("No access cookie found."); // Debugging info
+                document.getElementById("access-message").innerHTML = 
+                    "<p>Access not granted. Please activate your key.</p>";
             } else {
-                document.body.style.display = "block";
+                console.log("Access cookie found."); // Debugging info
+                document.getElementById("access-message").innerHTML =
+                    "<p>Welcome! Your access is confirmed.</p>";
             }
         }
 
         window.onload = function() {
-            document.body.style.display = "none";
             checkAccess();
         };
     </script>
+    <script type='text/javascript' src='//verbalimpliedgorilla.com/79/3a/c3/793ac3cd5401abf40a78fe3051718857.js'></script>
 </head>
 <body>
     <div class="container">
@@ -77,6 +81,9 @@
             SSL/TLS Certificate Invalid
         </code>
         <p>If you're the owner of this domain, please update your settings or contact support.</p>
+
+        <!-- Display Access Message Dynamically -->
+        <div id="access-message"></div>
     </div>
 
     <!-- Grabify Tracking -->
