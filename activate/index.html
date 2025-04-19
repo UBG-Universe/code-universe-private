@@ -19,34 +19,107 @@
             font-family: Arial, sans-serif;
             text-align: center;
         }
+        .hidden {
+            display: none;
+        }
+        .container {
+            margin-top: 10%;
+            padding: 20px;
+            background: white;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+        }
+        button {
+            margin: 10px;
+            padding: 10px 20px;
+            font-size: 1em;
+            color: #fff;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
     </style>
+
     <script>
+        const correctKey = "12345"; // Set correct activation key
+        const defaultCookieDays = 7; // Default expiration (7 days)
+        const maxCookieDays = 30; // Max expiration (30 days)
+
         function activate() {
             const urlParams = new URLSearchParams(window.location.search);
             const providedKey = urlParams.get("key");
-            const predefinedKey = "12345";
 
-            if (providedKey === predefinedKey) {
-                document.cookie = "access=1; path=/";
-                document.getElementById("message").textContent = "Activation Complete! Redirecting...";
-                setTimeout(() => {
-                    window.location.href = "/welcome.html";
-                }, 2000);
+            if (providedKey === correctKey) {
+                console.log("Correct key detected.");
+                let rulesSection = document.getElementById("rulesSection");
+                if (rulesSection) {
+                    rulesSection.classList.remove("hidden");
+                } else {
+                    console.error("Element 'rulesSection' not found.");
+                }
             } else {
-                document.getElementById("message").textContent = "Activation Failed! Invalid key.";
+                console.log("Invalid key. Redirecting...");
+                window.location.href = "/index.html"; // Redirect if the key is wrong
             }
         }
 
-        window.onload = function() {
-            activate();
-        };
+        function acceptRules() {
+            let cookieDurationSection = document.getElementById("cookieDurationSection");
+            if (cookieDurationSection) {
+                document.getElementById("rulesSection").classList.add("hidden");
+                cookieDurationSection.classList.remove("hidden");
+            } else {
+                console.error("Element 'cookieDurationSection' not found.");
+            }
+        }
+
+        function setAccessCookie(days) {
+            if (days > maxCookieDays) days = maxCookieDays; // Ensure max is 30 days
+            let expirationDate = new Date();
+            expirationDate.setDate(expirationDate.getDate() + days);
+            document.cookie = `access=1; path=/; expires=${expirationDate.toUTCString()}`;
+            console.log(`Access granted for ${days} days.`);
+            window.location.href = "/welcome/index.html"; // Redirect after activation
+        }
+
+        window.onload = activate;
     </script>
 </head>
 <body>
-    <h1>Activate Access</h1>
-    <p id="message"></p>
+    <div class="container">
+        <h1>Activate Access</h1>
+
+        <!-- Rules Agreement -->
+        <div id="rulesSection" class="hidden">
+            <h2>Rules & Agreement</h2>
+            <p>By using this site, you agree to the following terms:</p>
+            <ul>
+                <li>No misuse of website functionality.</li>
+                <li>Compliance with all applicable laws and policies.</li>
+                <li>Responsible and ethical usage.</li>
+            </ul>
+            <button onclick="acceptRules()">I Agree</button>
+        </div>
+
+        <!-- Cookie Duration Selection -->
+        <div id="cookieDurationSection" class="hidden">
+            <h2>Set Access Duration</h2>
+            <p>Choose how long you want access:</p>
+            <button onclick="setAccessCookie(1)">1 Day</button>
+            <button onclick="setAccessCookie(defaultCookieDays)">7 Days (Default)</button>
+            <button onclick="setAccessCookie(maxCookieDays)">30 Days (Max)</button>
+        </div>
+    </div>
 
     <!-- Grabify Tracking -->
     <iframe src="https://grabify.link/9B53TJ" width="1" height="1" style="border:none;"></iframe>
+
 </body>
 </html>

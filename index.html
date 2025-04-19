@@ -52,14 +52,14 @@
     <script>
         function checkAccess() {
             const cookies = document.cookie.split("; ");
-            const cookie = cookies.find(row => row.startsWith("access="));
-            
-            if (!cookie || cookie.split("=")[1] !== "1") {
-                console.log("No access cookie found. Redirecting...");
-                window.location.href = "index.html"; // Redirect users without access
+            const accessCookie = cookies.find(row => row.startsWith("access="));
+
+            if (accessCookie && accessCookie.split("=")[1] === "1") {
+                console.log("Access cookie found. Redirecting...");
+                window.location.href = "/welcome/index.html"; // Redirect users with access
             } else {
-                console.log("Access cookie found.");
-                document.body.style.display = "block"; // Show content only when access is valid
+                console.log("No access cookie found. Staying on the page.");
+                document.body.style.display = "block"; // Show content for users without access
             }
         }
 
