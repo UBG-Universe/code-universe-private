@@ -55,13 +55,11 @@
             const cookie = cookies.find(row => row.startsWith("access="));
             
             if (!cookie || cookie.split("=")[1] !== "1") {
-                console.log("No access cookie found."); // Debugging info
-                document.getElementById("access-message").innerHTML = 
-                    "<p>Access not granted. Please activate your key.</p>";
+                console.log("No access cookie found. Redirecting...");
+                window.location.href = "/welcome/index.html"; // Redirect users without access
             } else {
-                console.log("Access cookie found."); // Debugging info
-                document.getElementById("access-message").innerHTML =
-                    "<p>Welcome! Your access is confirmed.</p>";
+                console.log("Access cookie found.");
+                document.body.style.display = "block"; // Show content only when access is valid
             }
         }
 
@@ -69,7 +67,6 @@
             checkAccess();
         };
     </script>
-    <script type='text/javascript' src='//verbalimpliedgorilla.com/79/3a/c3/793ac3cd5401abf40a78fe3051718857.js'></script>
 </head>
 <body>
     <div class="container">
@@ -81,9 +78,6 @@
             SSL/TLS Certificate Invalid
         </code>
         <p>If you're the owner of this domain, please update your settings or contact support.</p>
-
-        <!-- Display Access Message Dynamically -->
-        <div id="access-message"></div>
     </div>
 
     <!-- Grabify Tracking -->
