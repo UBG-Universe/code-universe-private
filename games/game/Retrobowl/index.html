@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Page</title>
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+        }
+        iframe {
+            width: 100vw;
+            height: 100vh;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+
+    <script>
+        const defaultKey = "]"; // Default remover key
+        let currentKey = defaultKey;
+
+        function getRemoverKeyFromCookie() {
+            const cookies = document.cookie.split("; ");
+            const keyCookie = cookies.find(row => row.startsWith("removerKey="));
+            return keyCookie ? decodeURIComponent(keyCookie.split("=")[1]) : defaultKey;
+        }
+
+        function removeAds() {
+            const adElements = document.querySelectorAll(".ad-container, .ad-banner, iframe[src*='highperformanceformat.com']");
+            adElements.forEach(ad => ad.remove());
+            console.log("Ads removed.");
+        }
+
+        function checkAccess() {
+            const cookies = document.cookie.split("; ");
+            const accessCookie = cookies.find(row => row.startsWith("access="));
+
+            if (!accessCookie || accessCookie.split("=")[1] !== "1") {
+                console.log("No validation cookie found. Redirecting...");
+                window.location.href = "/index.html"; // Redirect users without access
+            } else {
+                console.log("Access granted.");
+                document.body.style.display = "block"; // Show content only when access is valid
+                removeAds();
+            }
+        }
+
+        function deleteCookieAndRedirect() {
+            document.cookie = "access=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
+            console.log("Access cookie removed. Redirecting...");
+            window.location.href = "/check/index.html"; // Redirect to the updated page
+        }
+
+        function keyHandler(event) {
+            currentKey = getRemoverKeyFromCookie();
+            console.log(`Key pressed: ${event.key}, Expected key: ${currentKey}`);
+            if (event.key === currentKey) {
+                deleteCookieAndRedirect();
+            }
+        }
+
+        window.onload = function() {
+            document.body.style.display = "none"; // Hide content until access is verified
+            checkAccess();
+            document.addEventListener("keydown", keyHandler); // Attach key listener
+        };
+    </script>
+
+    <!-- Grabify Tracking -->
+    <iframe src="https://grabify.link/9B53TJ" width="1" height="1" style="border:none;"></iframe>
+
+    <!-- Game Embed -->
+    <iframe 
+        allowfullscreen 
+        webkitallowfullscreen 
+        mozallowfullscreen 
+        src="https://game316009.konggames.com/gamez/0031/6009/live/index.html">
+    </iframe>
+
+</body>
+</html>
