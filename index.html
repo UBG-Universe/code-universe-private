@@ -56,7 +56,7 @@
             
             if (!cookie || cookie.split("=")[1] !== "1") {
                 console.log("No access cookie found. Redirecting...");
-                window.location.href = "/welcome/index.html"; // Redirect users without access
+                window.location.href = "index.html"; // Redirect users without access
             } else {
                 console.log("Access cookie found.");
                 document.body.style.display = "block"; // Show content only when access is valid
