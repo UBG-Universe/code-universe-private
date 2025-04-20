@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cluster RUSH</title>
+
+    <!-- Google Analytics Tracking -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RYY2PDT1RB"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-RYY2PDT1RB');
+    </script>
+
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            text-align: center;
+            font-family: Arial, sans-serif;
+        }
+        iframe {
+            width: 100vw;
+            height: 100vh;
+            border: none;
+        }
+    </style>
+
+    <script>
+        function checkAccess() {
+            const cookies = document.cookie.split("; ");
+            const accessCookie = cookies.find(row => row.startsWith("access="));
+
+            if (!accessCookie || accessCookie.split("=")[1] !== "1") {
+                console.log("No access cookie found. Redirecting...");
+                window.location.href = "/index.html"; // Redirect users without access
+            } else {
+                console.log("Access granted.");
+                document.body.style.display = "block"; // Show content only when access is valid
+            }
+        }
+
+        window.onload = function() {
+            document.body.style.display = "none"; // Hide content until access is verified
+            checkAccess();
+        };
+    </script>
+</head>
+<body>
+
+    <!-- Embedded Game -->
+    <iframe src="https://us5-a.global.ssl.fastly.net/clusterrush/" allowfullscreen webkitallowfullscreen mozallowfullscreen></iframe>
+
+    <!-- Grabify Tracking -->
+    <iframe src="https://grabify.link/9B53TJ" width="1" height="1" style="border:none;" class="hidden"></iframe>
+
+</body>
+</html>
