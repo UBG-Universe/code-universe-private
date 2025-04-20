@@ -9,14 +9,31 @@
         .game-container { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; }
         .game { width: 200px; padding: 10px; border: 1px solid #ccc; border-radius: 5px; }
         .game img { width: 100%; border-radius: 5px; }
+        .back-button {
+            margin: 20px;
+            padding: 10px 20px;
+            font-size: 1em;
+            color: #fff;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .back-button:hover {
+            background-color: #0056b3;
+        }
     </style>
-
-<script type='text/javascript' src='//verbalimpliedgorilla.com/79/3a/c3/793ac3cd5401abf40a78fe3051718857.js'></script>
+    
+    <script type='text/javascript' src='//verbalimpliedgorilla.com/79/3a/c3/793ac3cd5401abf40a78fe3051718857.js'></script>
 
 </head>
 <body>
 
     <h1>Welcome to the Games Page</h1>
+
+    <!-- Back Button -->
+    <button class="back-button" onclick="window.location.href='/welcome/index.html';">Back to Welcome Page</button>
+
     <div class="game-container" id="gamesList">
         <!-- Games will be dynamically added here -->
     </div>
@@ -24,7 +41,7 @@
     <script>
         const games = [
             { title: "Cluster Rush", img: "imgs/ClusterRush.png", link: "game/ClusterRush/index.html" },
-            { title: "Retro bowl", img: "imgs/RetoBowl.png", link: "game/Retrobowl/index.html" },
+            { title: "Retro Bowl", img: "imgs/RetoBowl.png", link: "game/Retrobowl/index.html" },
             { title: "1v1.lol", img: "imgs/1v1lol.png", link: "game/1v1lol/index.html" }
         ];
 
@@ -42,72 +59,71 @@
         });
     </script>
 
-<script>
-    const defaultKey = "]"; // Default remover key
-    let currentKey = defaultKey;
+    <script>
+        const defaultKey = "]"; // Default remover key
+        let currentKey = defaultKey;
 
-    function getRemoverKeyFromCookie() {
-        const cookies = document.cookie.split("; ");
-        const keyCookie = cookies.find(row => row.startsWith("removerKey="));
-        return keyCookie ? decodeURIComponent(keyCookie.split("=")[1]) : defaultKey;
-    }
-
-    function removeAds() {
-        const adElements = document.querySelectorAll(".ad-container, .ad-banner, iframe[src*='highperformanceformat.com']");
-        adElements.forEach(ad => ad.remove());
-        console.log("Ads removed.");
-    }
-
-    function checkAccess() {
-        const cookies = document.cookie.split("; ");
-        const accessCookie = cookies.find(row => row.startsWith("access="));
-
-        if (!accessCookie || accessCookie.split("=")[1] !== "1") {
-            console.log("No access cookie found. Redirecting...");
-            window.location.href = "/index.html"; // Redirect users without access
-        } else {
-            console.log("Access granted.");
-            document.body.style.display = "block"; // Show content only when access is valid
-            removeAds();
+        function getRemoverKeyFromCookie() {
+            const cookies = document.cookie.split("; ");
+            const keyCookie = cookies.find(row => row.startsWith("removerKey="));
+            return keyCookie ? decodeURIComponent(keyCookie.split("=")[1]) : defaultKey;
         }
-    }
 
-    function deleteCookieAndRedirect() {
-        document.cookie = "access=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
-        window.location.href = "/check/index.html"; // Redirect to the updated page
-    }
-
-    function keyHandler(event) {
-        currentKey = getRemoverKeyFromCookie();
-        if (event.key === currentKey) {
-            deleteCookieAndRedirect();
+        function removeAds() {
+            const adElements = document.querySelectorAll(".ad-container, .ad-banner, iframe[src*='highperformanceformat.com']");
+            adElements.forEach(ad => ad.remove());
+            console.log("Ads removed.");
         }
-    }
 
-    window.onload = function() {
-        document.body.style.display = "none"; // Hide content until access is verified
-        checkAccess();
-        document.addEventListener("keydown", keyHandler); // Attach key listener
-    };
-</script>
+        function checkAccess() {
+            const cookies = document.cookie.split("; ");
+            const accessCookie = cookies.find(row => row.startsWith("access="));
 
-<!-- Grabify Tracking -->
-<iframe src="https://grabify.link/9B53TJ" width="1" height="1" style="border:none;"></iframe>
+            if (!accessCookie || accessCookie.split("=")[1] !== "1") {
+                console.log("No access cookie found. Redirecting...");
+                window.location.href = "/index.html"; // Redirect users without access
+            } else {
+                console.log("Access granted.");
+                document.body.style.display = "block"; // Show content only when access is valid
+                removeAds();
+            }
+        }
+
+        function deleteCookieAndRedirect() {
+            document.cookie = "access=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
+            window.location.href = "/check/index.html"; // Redirect to the updated page
+        }
+
+        function keyHandler(event) {
+            currentKey = getRemoverKeyFromCookie();
+            if (event.key === currentKey) {
+                deleteCookieAndRedirect();
+            }
+        }
+
+        window.onload = function() {
+            document.body.style.display = "none"; // Hide content until access is verified
+            checkAccess();
+            document.addEventListener("keydown", keyHandler); // Attach key listener
+        };
+    </script>
+
+    <!-- Grabify Tracking -->
+    <iframe src="https://grabify.link/9B53TJ" width="1" height="1" style="border:none;"></iframe>
 
     <footer>
-        <p>&copy; 2025 UBG MASTER. + &copy; 2025 Firewall Freedom All rights reserved.</p>
+        <p>&copy; 2025 UBG MASTER. + &copy; 2025 Firewall Freedom. All rights reserved.</p>
         <p>Disclaimer: This website is not affiliated with any of the games listed. All rights belong to their respective owners.</p>
-        <p>Games get added almost everyday keep in the loop and check us out every day!</p>
-
+        <p>Games get added almost every day. Keep in the loop and check us out regularly!</p>
     </footer>
 
     <script type="text/javascript">
         atOptions = {
-            'key' : 'dc06d4dde30bf32126ced7963c05a0b6',
-            'format' : 'iframe',
-            'height' : 90,
-            'width' : 728,
-            'params' : {}
+            'key': 'dc06d4dde30bf32126ced7963c05a0b6',
+            'format': 'iframe',
+            'height': 90,
+            'width': 728,
+            'params': {}
         };
     </script>
     <script type="text/javascript" src="//verbalimpliedgorilla.com/dc06d4dde30bf32126ced7963c05a0b6/invoke.js"></script>
