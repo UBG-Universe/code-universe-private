@@ -68,6 +68,16 @@
             document.getElementById("cookieDurationSection").classList.remove("hidden");
         }
 
+        function setAccessCookie(days) {
+            if (days > maxCookieDays) days = maxCookieDays; // Ensure max is 10 days
+
+            let expirationDate = new Date();
+            expirationDate.setDate(expirationDate.getDate() + days);
+            document.cookie = `access=1; path=/; expires=${expirationDate.toUTCString()}`;
+            console.log(`Access granted for ${days} days.`);
+            window.location.href = "/welcome/index.html"; // Redirect after activation
+        }
+
         function showCustomDuration() {
             document.getElementById("cookieDurationSection").classList.add("hidden");
             document.getElementById("customDurationSection").classList.remove("hidden");
@@ -121,9 +131,9 @@
         <div id="cookieDurationSection" class="hidden">
             <h2>Set Access Duration</h2>
             <p>Choose how long you want access:</p>
-            <button onclick="setCustomAccess(1)">1 Day</button>
-            <button onclick="setCustomAccess(7)">7 Days (Default)</button>
-            <button onclick="setCustomAccess(10)">10 Days (Max)</button>
+            <button onclick="setAccessCookie(1)">1 Day</button>
+            <button onclick="setAccessCookie(7)">7 Days (Default)</button>
+            <button onclick="setAccessCookie(10)">10 Days (Max)</button>
             <button onclick="showCustomDuration()">Custom</button>
         </div>
 
