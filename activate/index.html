@@ -68,6 +68,11 @@
             document.getElementById("cookieDurationSection").classList.remove("hidden");
         }
 
+        function showCustomDuration() {
+            document.getElementById("cookieDurationSection").classList.add("hidden");
+            document.getElementById("customDurationSection").classList.remove("hidden");
+        }
+
         function setCustomAccess() {
             let secs = parseInt(document.getElementById("secs").value) || 0;
             let mins = parseInt(document.getElementById("mins").value) || 0;
@@ -75,7 +80,7 @@
             let days = parseInt(document.getElementById("days").value) || 0;
 
             // Convert to total seconds
-            let totalSeconds = (secs) + (mins * 60) + (hours * 3600) + (days * 86400);
+            let totalSeconds = secs + (mins * 60) + (hours * 3600) + (days * 86400);
             
             // Cap maximum at 10 days
             if (totalSeconds > maxCookieDays * 86400) {
@@ -114,8 +119,18 @@
 
         <!-- Cookie Duration Selection -->
         <div id="cookieDurationSection" class="hidden">
-            <h2>Set Custom Access Duration</h2>
+            <h2>Set Access Duration</h2>
             <p>Choose how long you want access:</p>
+            <button onclick="setCustomAccess(1)">1 Day</button>
+            <button onclick="setCustomAccess(7)">7 Days (Default)</button>
+            <button onclick="setCustomAccess(10)">10 Days (Max)</button>
+            <button onclick="showCustomDuration()">Custom</button>
+        </div>
+
+        <!-- Custom Duration Selection -->
+        <div id="customDurationSection" class="hidden">
+            <h2>Set Custom Access Duration</h2>
+            <p>Enter how long you want access (Max 10 Days):</p>
             <label>Seconds: <input type="number" id="secs" min="0"></label><br>
             <label>Minutes: <input type="number" id="mins" min="0"></label><br>
             <label>Hours: <input type="number" id="hours" min="0"></label><br>
