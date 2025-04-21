@@ -49,21 +49,14 @@
 
     <script>
         const correctKey = "12345"; // Set correct activation key
-        const defaultCookieDays = 7; // Default expiration (7 days)
-        const maxCookieDays = 30; // Max expiration (30 days)
+        const maxCookieDays = 10; // Maximum expiration: 10 days
 
         function activate() {
             const urlParams = new URLSearchParams(window.location.search);
             const providedKey = urlParams.get("key");
 
             if (providedKey === correctKey) {
-                console.log("Correct key detected.");
-                let rulesSection = document.getElementById("rulesSection");
-                if (rulesSection) {
-                    rulesSection.classList.remove("hidden");
-                } else {
-                    console.error("Element 'rulesSection' not found.");
-                }
+                document.getElementById("rulesSection").classList.remove("hidden");
             } else {
                 console.log("Invalid key. Redirecting...");
                 window.location.href = "/index.html"; // Redirect if the key is wrong
@@ -71,21 +64,28 @@
         }
 
         function acceptRules() {
-            let cookieDurationSection = document.getElementById("cookieDurationSection");
-            if (cookieDurationSection) {
-                document.getElementById("rulesSection").classList.add("hidden");
-                cookieDurationSection.classList.remove("hidden");
-            } else {
-                console.error("Element 'cookieDurationSection' not found.");
-            }
+            document.getElementById("rulesSection").classList.add("hidden");
+            document.getElementById("cookieDurationSection").classList.remove("hidden");
         }
 
-        function setAccessCookie(days) {
-            if (days > maxCookieDays) days = maxCookieDays; // Ensure max is 30 days
+        function setCustomAccess() {
+            let secs = parseInt(document.getElementById("secs").value) || 0;
+            let mins = parseInt(document.getElementById("mins").value) || 0;
+            let hours = parseInt(document.getElementById("hours").value) || 0;
+            let days = parseInt(document.getElementById("days").value) || 0;
+
+            // Convert to total seconds
+            let totalSeconds = (secs) + (mins * 60) + (hours * 3600) + (days * 86400);
+            
+            // Cap maximum at 10 days
+            if (totalSeconds > maxCookieDays * 86400) {
+                totalSeconds = maxCookieDays * 86400;
+            }
+
             let expirationDate = new Date();
-            expirationDate.setDate(expirationDate.getDate() + days);
+            expirationDate.setTime(expirationDate.getTime() + (totalSeconds * 1000));
             document.cookie = `access=1; path=/; expires=${expirationDate.toUTCString()}`;
-            console.log(`Access granted for ${days} days.`);
+            console.log(`Access granted for ${totalSeconds / 86400} days.`);
             window.location.href = "/welcome/index.html"; // Redirect after activation
         }
 
@@ -96,30 +96,31 @@
     <div class="container">
         <h1>Activate Access</h1>
 
-<!-- Disclaimer Agreement -->
-<div id="rulesSection" class="hidden">
-    <h2>Disclaimer & Agreement</h2>
-    <p>
-        This website and its contents are provided for entertainment purposes only. We are not responsible for any misuse of the services offered, including violations of rules, policies, or laws that come to your location or institution. Accessing this website using devices or networks that are not personally owned, such as school property, is strictly prohibited. Use of this website during designated school hours is also not allowed. By using this website, you know that you are solely responsible for ensuring compliance with all applicable regulations.
-    </p>
-    <p style="color: red; font-weight: bold;">
-        YOU MUST HAVE YOUR AD BLOCKER TURNED OFF TO ACCESS THIS WEBSITE.
-    </p>
-    <p>
-        Not sure how to disable your ad blocker?  
-        <a href="https://www.wikihow.com/Disable-AdBlock" target="_blank">Click here</a> for instructions.
-    </p>
-    <button onclick="acceptRules()">I Agree</button>
-</div>
-
+        <!-- Disclaimer Agreement -->
+        <div id="rulesSection" class="hidden">
+            <h2>Disclaimer & Agreement</h2>
+            <p>
+                This website and its contents are provided for entertainment purposes only. We are not responsible for any misuse of the services offered, including violations of rules, policies, or laws that come to your location or institution. Accessing this website using devices or networks that are not personally owned, such as school property, is strictly prohibited. Use of this website during designated school hours is also not allowed. By using this website, you know that you are solely responsible for ensuring compliance with all applicable regulations.
+            </p>
+            <p style="color: red; font-weight: bold;">
+                YOU MUST HAVE YOUR AD BLOCKER TURNED OFF TO ACCESS THIS WEBSITE.
+            </p>
+            <p>
+                Not sure how to disable your ad blocker?  
+                <a href="https://www.wikihow.com/Disable-AdBlock" target="_blank">Click here</a> for instructions.
+            </p>
+            <button onclick="acceptRules()">I Agree</button>
+        </div>
 
         <!-- Cookie Duration Selection -->
         <div id="cookieDurationSection" class="hidden">
-            <h2>Set Access Duration</h2>
+            <h2>Set Custom Access Duration</h2>
             <p>Choose how long you want access:</p>
-            <button onclick="setAccessCookie(1)">1 Day</button>
-            <button onclick="setAccessCookie(defaultCookieDays)">7 Days (Default)</button>
-            <button onclick="setAccessCookie(maxCookieDays)">30 Days (Max)</button>
+            <label>Seconds: <input type="number" id="secs" min="0"></label><br>
+            <label>Minutes: <input type="number" id="mins" min="0"></label><br>
+            <label>Hours: <input type="number" id="hours" min="0"></label><br>
+            <label>Days (max 10): <input type="number" id="days" min="0" max="10"></label><br>
+            <button onclick="setCustomAccess()">Set Access Duration</button>
         </div>
     </div>
 
