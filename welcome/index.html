@@ -5,26 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Welcome Page</title>
     <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/Sirco-team/files/refs/heads/main/ugb/UBG_favcon.png">
-    
-    <!-- Google Analytics Tracking -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RYY2PDT1RB"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-RYY2PDT1RB');
-    </script>
 
     <style>
         body {
             font-family: Arial, sans-serif;
             background-color: #f4f4f4;
             margin: 0;
-            display: none;
+            text-align: center;
         }
         .container {
             text-align: center;
-            margin-top: 10%;
+            margin-top: 5%;
             padding: 20px;
             background: white;
             max-width: 600px;
@@ -33,19 +24,15 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             border-radius: 8px;
         }
-        h1 {
-            font-size: 2.5em;
-            color: #333;
-        }
         button {
-            margin: 10px;
+            background-color: #007bff;
+            color: #fff;
             padding: 15px 30px;
             font-size: 1.2em;
-            color: #fff;
-            background-color: #007bff;
             border: none;
             border-radius: 5px;
             cursor: pointer;
+            margin: 10px;
         }
         button:hover {
             background-color: #0056b3;
@@ -55,75 +42,54 @@
         }
         .ad-container {
             text-align: center;
-            margin-top: 20px;
+            margin-top: 40px;
         }
-        footer {
-            text-align: center;
-            padding: 15px 20px;
+        .footer-container {
             background-color: #007bff;
             color: white;
             font-size: 0.9em;
+            padding: 15px 20px;
             border-top: 1px solid #0056b3;
         }
-        footer p {
-            margin: 0;
-            line-height: 1.5;
+        .footer-container p {
+            margin: 5px 0;
         }
     </style>
+
     <script>
-        const defaultKey = "'"; 
-        let currentKey = defaultKey;
+        const bannerEnabled = true; // Set to false to turn off the banner
 
-        function getRemoverKeyFromCookie() {
-            const cookies = document.cookie.split("; ");
-            const keyCookie = cookies.find(row => row.startsWith("removerKey="));
-            return keyCookie ? decodeURIComponent(keyCookie.split("=")[1]) : defaultKey;
-        }
-
-        function setRemoverKey(newKey) {
-            if (newKey) {
-                document.cookie = `removerKey=${encodeURIComponent(newKey)}; path=/;`;
-                currentKey = newKey;
-                window.location.href = "/check/index.html"; 
+        function loadBanner() {
+            if (bannerEnabled) {
+                const iframe = document.createElement("iframe");
+                iframe.src = "/banner.html";
+                iframe.style.width = "100%";
+                iframe.style.height = "100px";
+                iframe.style.border = "none";
+                document.body.prepend(iframe);
             }
         }
 
-        function deleteCookieAndRedirect() {
-            document.cookie = "access=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
-            window.location.href = "/check/index.html";
-        }
-
-        function keyHandler(event) {
-            currentKey = getRemoverKeyFromCookie();
-            if (event.key === currentKey) {
-                deleteCookieAndRedirect();
-            }
-        }
-
-        function checkCookie() {
-            const cookies = document.cookie.split("; ");
-            const cookie = cookies.find(row => row.startsWith("access="));
-            if (!cookie || cookie.split("=")[1] !== "1") {
-                window.location.href = "/index.html";
-            } else {
-                document.body.style.display = "block";
-            }
-        }
-
-        window.onload = function() {
-            document.body.style.display = "none";
-            currentKey = getRemoverKeyFromCookie();
-            checkCookie();
-            document.addEventListener("keydown", keyHandler);
-        };
+        window.onload = loadBanner;
     </script>
-    <script type='text/javascript' src='//verbalimpliedgorilla.com/79/3a/c3/793ac3cd5401abf40a78fe3051718857.js'></script>
+
 </head>
 <body>
+    <!-- Disclaimer (Moved to the Top) -->
+    <div class="footer-container">
+        <p>
+            Disclaimer: This website and its contents are provided for entertainment purposes only. 
+            We are not responsible for any misuse of the services offered, including violations of 
+            rules, policies, or laws that come to your location or institution. Accessing this website 
+            using devices or networks that are not personally owned, such as school property, is strictly 
+            prohibited. Use of this website during designated school hours is also not allowed. By using this 
+            website, you acknowledge that you are solely responsible for ensuring compliance with all applicable regulations.
+        </p>
+    </div>
+
     <div class="container">
         <h1>Welcome to UBG UNIVERCE</h1>
         <p>Welcome to the brand new UBG lineup called UBG UNIVERCE.</p>
-        <button onclick="setRemoverKey(']')">Change Remover Key</button>
         <button onclick="window.location.href = '/updates.txt';">View Updates</button>
         
         <div class="custom-buttons">
@@ -137,29 +103,20 @@
     <div class="ad-container">
         <script type="text/javascript">
             atOptions = {
-                'key' : 'dc06d4dde30bf32126ced7963c05a0b6',
-                'format' : 'iframe',
-                'height' : 90,
-                'width' : 728,
-                'params' : {}
+                'key': 'dc06d4dde30bf32126ced7963c05a0b6',
+                'format': 'iframe',
+                'height': 90,
+                'width': 728,
+                'params': {}
             };
         </script>
         <script type="text/javascript" src="//www.highperformanceformat.com/dc06d4dde30bf32126ced7963c05a0b6/invoke.js"></script>
-        
     </div>
 
-    <!-- Grabify Tracking -->
-    <iframe src="https://grabify.link/9B53TJ" width="1" height="1" style="border:none;"></iframe>
-
-    <footer>
-        <p>
-            Disclaimer: This website and its contents are provided for entertainment purposes only. We are not responsible for any misuse of the services offered, including violations of rules, policies, or laws that come to your location or institution. Accessing this website using devices or networks that are not personally owned, such as school property, is strictly prohibited. Use of this website during designated school hours is also not allowed. By using this website, you know that you are solely responsible for ensuring compliance with all applicable regulations.
-        </p>
-    </footer>
-
-    <footer>
+    <!-- Footer (Now Together with Disclaimer) -->
+    <div class="footer-container">
         <p>&copy; 2025 UBG MASTER. + &copy; 2025 Firewall Freedom All rights reserved.</p>
-        </footer>
+    </div>
 
 </body>
 </html>
