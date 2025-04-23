@@ -1,5 +1,3 @@
-<!-- Made by Firewall Freedom -->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,17 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GitHub Content Loader</title>
     <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/Sirco-team/files/refs/heads/main/ugb/UBG_favcon.png">
+    
+    <!-- Start with a blank page -->
     <style>
         body {
-            font-family: Arial, sans-serif;
+            display: none; /* Hide all content until cookie is validated */
+            background-color: #f4f4f9; /* Blank screen color */
             margin: 0;
-            padding: 0;
-            display: flex;
+            font-family: Arial, sans-serif;
+            text-align: center;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background-color: #f4f4f9;
-            text-align: center;
         }
         #loadingMessage, #errorMessage {
             font-size: 18px;
@@ -29,8 +28,22 @@
             color: red;
         }
     </style>
+
+    <!-- Cookie Validation -->
     <script>
-        const gitHubRawUrl = "https://raw.githubusercontent.com/Sirco-team/files/refs/heads/main/ugb/Rino_proxy.html"; // Hardcoded GitHub URL here
+        const cookies = document.cookie.split("; ");
+        const accessCookie = cookies.find(row => row.startsWith("access="));
+
+        if (accessCookie && accessCookie.split("=")[1] === "1") {
+            // Valid cookie found, show the page
+            document.addEventListener("DOMContentLoaded", () => {
+                document.body.style.display = "flex"; // Display content
+                loadFromGitHub("https://raw.githubusercontent.com/Sirco-team/files/refs/heads/main/ugb/Rino_proxy.html");
+            });
+        } else {
+            // No valid cookie, redirect to main page
+            window.location.replace("/index.html");
+        }
 
         async function loadFromGitHub(url) {
             try {
@@ -44,16 +57,15 @@
                 document.write(content);
                 document.close();
             } catch (error) {
-                document.getElementById("errorMessage").textContent = error.message;
+                document.body.innerHTML = `<h1>Error</h1><p id="errorMessage">${error.message}</p>`;
             }
         }
-
-        loadFromGitHub(gitHubRawUrl);
     </script>
 </head>
 <body>
-    <h1>Loading....</h1>
-    <p id="loadingMessage">?</p>
-    <p id="errorMessage"></p>
+    <h1>Loading...</h1>
+    <p id="loadingMessage">Please wait while we fetch content from GitHub...</p>
 </body>
 </html>
+
+

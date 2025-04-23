@@ -3,13 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Proxy Buttons</title>
+    <title>Proxys Page</title>
     <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/Sirco-team/files/refs/heads/main/ugb/UBG_favcon.png">
+    
+    <!-- Start with a blank page -->
     <style>
-        body { font-family: Arial, sans-serif; text-align: center; padding: 20px; }
-        .button-container { display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; margin-bottom: 30px; }
-        .proxy-button {
-            padding: 12px 24px;
+        body {
+            display: none; /* Hide all content until cookie is validated */
+            background-color: #ffffff; /* Blank white page */
+            margin: 0;
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        .proxy-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            padding: 20px;
+        }
+        .proxy {
+            width: 200px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            background: #f9f9f9;
+        }
+        .proxy a {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 8px 12px;
+            font-size: 0.9em;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .proxy a:hover {
+            background-color: #0056b3;
+        }
+        .back-button {
+            margin: 20px;
+            padding: 10px 20px;
             font-size: 1em;
             color: #fff;
             background-color: #007bff;
@@ -17,81 +54,80 @@
             border-radius: 5px;
             cursor: pointer;
         }
-        .proxy-button:hover { background-color: #0056b3; }
-        .back-button {
-            margin: 20px;
-            padding: 10px 20px;
-            font-size: 1em;
-            color: #fff;
-            background-color: #28a745;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
         .back-button:hover {
-            background-color: #218838;
+            background-color: #0056b3;
         }
-        .container { max-width: 600px; margin: auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); }
-        .footer-box {
-            max-width: 600px; margin: auto; padding: 15px; background: white; border-radius: 8px; border: 1px solid #ccc;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        footer {
+            margin-top: 20px;
+            padding: 10px;
+            background: #f1f1f1;
+            font-size: 0.9em;
+            color: #555;
         }
     </style>
+
+    <!-- Cookie Validation -->
+    <script>
+        // Check for access cookie
+        const cookies = document.cookie.split("; ");
+        const accessCookie = cookies.find(row => row.startsWith("access="));
+
+        if (accessCookie && accessCookie.split("=")[1] === "1") {
+            // Valid cookie found, show the page
+            document.addEventListener("DOMContentLoaded", () => {
+                document.body.style.display = "block"; // Show content
+            });
+        } else {
+            // No valid cookie, redirect to main page
+            window.location.replace("/index.html");
+        }
+    </script>
 </head>
 <body>
 
-    <h1>PROXY BUTTONS</h1>
+    <h1>Welcome to the Proxys Page</h1>
 
     <!-- Back Button -->
     <button class="back-button" onclick="window.location.href='/welcome/index.html';">Back to Welcome Page</button>
 
-    <div class="button-container">
-        <button class="proxy-button" onclick="window.location.href='https://forms.office.com/Pages/ResponsePage.aspx?id=DQSIkWdsW0yxEjajBLZtrQAAAAAAAAAAAAO__VD4IRRUM0hJVDZaSjNHSThOSkkzMURXU1ZERUpTNy4u'">REPORT A PROXY</button>
-        <button class="proxy-button" onclick="window.location.href='proxy/googleproxy.html'">Google Proxy</button>
-        <button class="proxy-button" onclick="window.location.href='proxy/ais.html'">AI's Page</button>
-        <button class="proxy-button" onclick="window.location.href='proxy/usproxy.html'">US Proxy</button>
-        <button class="proxy-button" onclick="window.location.href='proxy/customproxy.html'">Custom Proxy</button>
-        <button class="proxy-button" onclick="window.location.href='proxy/rino.html'">RINO Proxy</button>
-        <button class="proxy-button" onclick="window.location.href='proxy/heyproxy.html'">HEY Proxy (Newest)</button>
-        <button class="proxy-button" onclick="window.location.href='proxy/emeraldproxy.html'">Emerald Proxy</button>
-        <button class="proxy-button" onclick="window.location.href='proxy/boredomproxy.html'">Boredom Proxy</button>
-        <button class="proxy-button" onclick="window.location.href='proxy/studyacademics.html'">Study-Academics Proxy</button>
-        <button class="proxy-button" onclick="window.location.href='proxy/dodgeproxy.html'">Dodge Proxy</button>
+    <!-- Proxy List Container -->
+    <div class="proxy-container" id="proxyList">
+        <!-- Proxy buttons will be dynamically added here -->
     </div>
 
-    <!-- Ad Script (Above Instructions Box) -->
-    <script type="text/javascript">
-        atOptions = {
-            'key': 'dc06d4dde30bf32126ced7963c05a0b6',
-            'format': 'iframe',
-            'height': 90,
-            'width': 728,
-            'params': {}
-        };
+    <footer>
+        <p>&copy; 2025 UBG MASTER. + &copy; 2025 Firewall Freedom. All rights reserved.</p>
+        <p>Disclaimer: This website is not affiliated with any of the proxies listed. All rights belong to their respective owners.</p>
+    </footer>
+
+    <script>
+        // Proxy list provided
+        const proxies = [
+            { title: "REPORT A PROXY", link: "https://forms.office.com/Pages/ResponsePage.aspx?id=DQSIkWdsW0yxEjajBLZtrQAAAAAAAAAAAAO__VD4IRRUM0hJVDZaSjNHSThOSkkzMURXU1ZERUpTNy4u" },
+            { title: "Google Proxy", link: "proxy/googleproxy.html" },
+            { title: "AI's Page", link: "proxy/ais.html" },
+            { title: "US Proxy", link: "proxy/usproxy.html" },
+            { title: "Custom Proxy", link: "proxy/customproxy.html" },
+            { title: "RINO Proxy", link: "proxy/rino.html" },
+            { title: "HEY Proxy (Newest)", link: "proxy/heyproxy.html" },
+            { title: "Emerald Proxy", link: "proxy/emeraldproxy.html" },
+            { title: "Boredom Proxy", link: "proxy/boredomproxy.html" },
+            { title: "Study-Academics Proxy", link: "proxy/studyacademics.html" },
+            { title: "Dodge Proxy", link: "proxy/dodgeproxy.html" }
+        ];
+
+        // Dynamically add proxies to the page
+        const proxyList = document.getElementById("proxyList");
+
+        proxies.forEach(proxy => {
+            const proxyDiv = document.createElement("div");
+            proxyDiv.classList.add("proxy");
+            proxyDiv.innerHTML = `
+                <h3>${proxy.title}</h3>
+                <a href="${proxy.link}" target="_blank">Visit Proxy</a>
+            `;
+            proxyList.appendChild(proxyDiv);
+        });
     </script>
-    <script type="text/javascript" src="//verbalimpliedgorilla.com/dc06d4dde30bf32126ced7963c05a0b6/invoke.js"></script>
-
-    <div class="container">
-        <h2>Instructions</h2>
-        <p>Copy and paste this into the proxy of your choice for faster results:</p>
-        <code>http://duckduckgo.com/</code>
-        <p>For most proxies, click the Google icon and then the DuckDuckGo icon so you do not have to verify that you're a robot.</p>
-    </div>
-
-    <div class="footer-box">
-        <p>&copy; 2025 UBG MASTER + &copy; 2025 Firewall Freedom. All rights reserved.</p>
-        <p class="warning">
-            Disclaimer: This website and its contents are provided for entertainment purposes only. 
-            We are not responsible for any misuse of the services offered, including violations of 
-            rules, policies, or laws that come to your location or institution. Accessing this website 
-            using devices or networks that are not personally owned, such as school property, is strictly 
-            prohibited. Use of this website during designated school hours is also not allowed. By using this 
-            website, you acknowledge that you are solely responsible for ensuring compliance with all applicable regulations.
-        </p>
-    </div>
-
-    <!-- Grabify Tracking -->
-    <iframe src="https://grabify.link/9B53TJ" width="1" height="1" style="border:none;" class="hidden"></iframe>
-
 </body>
 </html>

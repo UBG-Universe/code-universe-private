@@ -12,6 +12,7 @@
             background-color: #f4f4f4;
             margin: 0;
             text-align: center;
+            display: none; /* Initially hidden */
         }
         .container {
             text-align: center;
@@ -54,10 +55,65 @@
         .footer-container p {
             margin: 5px 0;
         }
+        .version-footer {
+            text-align: center;
+            background-color: #f8f9fa;
+            color: #6c757d;
+            padding: 10px;
+            font-size: 0.85em;
+            border-top: 1px solid #ddd;
+        }
     </style>
 
     <script>
         const bannerEnabled = true; // Set to false to turn off the banner
+        const agreementVersion = new Date("2023-12-31T23:59:59"); // Agreement cutoff date
+        const defaultKey = "]"; // Default key for removing access
+        let currentKey = defaultKey;
+
+        function checkAgreement() {
+            const cookies = document.cookie.split("; ");
+            const agreementCookie = cookies.find(row => row.startsWith("agreementTimestamp="));
+
+            if (agreementCookie) {
+                const userAgreementDate = new Date(agreementCookie.split("=")[1]);
+                if (userAgreementDate < agreementVersion) {
+                    alert("To continue using this site, you must agree to the updated rules.");
+                    window.location.href = "/activate?agreement";
+                }
+            } else {
+                // Redirect if no agreement cookie
+                window.location.href = "/activate?agreement";
+            }
+        }
+
+        function getRemoverKeyFromCookie() {
+            const cookies = document.cookie.split("; ");
+            const keyCookie = cookies.find(row => row.startsWith("removerKey="));
+            return keyCookie ? decodeURIComponent(keyCookie.split("=")[1]) : defaultKey;
+        }
+
+        function deleteCookieAndRedirect() {
+            document.cookie = "access=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
+            window.location.href = "/check/index.html";
+        }
+
+        function keyHandler(event) {
+            currentKey = getRemoverKeyFromCookie();
+            if (event.key === currentKey) {
+                deleteCookieAndRedirect();
+            }
+        }
+
+        function checkCookie() {
+            const cookies = document.cookie.split("; ");
+            const cookie = cookies.find(row => row.startsWith("access="));
+            if (!cookie || cookie.split("=")[1] !== "1") {
+                window.location.href = "/index.html";
+            } else {
+                document.body.style.display = "block"; // Show content only when cookie is valid
+            }
+        }
 
         function loadBanner() {
             if (bannerEnabled) {
@@ -70,9 +126,13 @@
             }
         }
 
-        window.onload = loadBanner;
+        window.onload = function () {
+            checkAgreement(); // Ensure agreement is valid
+            checkCookie();
+            loadBanner();
+            document.addEventListener("keydown", keyHandler);
+        };
     </script>
-
 </head>
 <body>
     <!-- Disclaimer (Moved to the Top) -->
@@ -90,6 +150,7 @@
     <div class="container">
         <h1>Welcome to UBG UNIVERCE</h1>
         <p>Welcome to the brand new UBG lineup called UBG UNIVERCE.</p>
+        <button onclick="window.location.href='/check';">Change Remover Key</button>
         <button onclick="window.location.href = '/updates.txt';">View Updates</button>
         
         <div class="custom-buttons">
@@ -113,10 +174,14 @@
         <script type="text/javascript" src="//www.highperformanceformat.com/dc06d4dde30bf32126ced7963c05a0b6/invoke.js"></script>
     </div>
 
-    <!-- Footer (Now Together with Disclaimer) -->
+    <!-- Footer -->
     <div class="footer-container">
         <p>&copy; 2025 UBG MASTER. + &copy; 2025 Firewall Freedom All rights reserved.</p>
     </div>
 
+    <!-- Version Footer -->
+    <div class="version-footer">
+        <p>Version 1.0.0</p>
+    </div>
 </body>
 </html>

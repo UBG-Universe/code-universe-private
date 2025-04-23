@@ -6,15 +6,6 @@
     <title>Activate Access</title>
     <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/Sirco-team/files/refs/heads/main/ugb/UBG_favcon.png">
 
-    <!-- Google Analytics Tracking -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RYY2PDT1RB"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-RYY2PDT1RB');
-    </script>
-
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -49,7 +40,7 @@
     </style>
 
     <script>
-        const correctKey = "scsucks"; // Set correct activation key
+        const correctKey = "cbisbad"; // Activation key
         const maxCookieDays = 10; // Maximum expiration: 10 days
 
         function activate() {
@@ -60,7 +51,7 @@
                 document.getElementById("rulesSection").classList.remove("hidden");
             } else {
                 console.log("Invalid key. Redirecting...");
-                window.location.href = "/index.html"; // Redirect if the key is wrong
+                window.location.href = "/index.html"; // Redirect if key is wrong
             }
         }
 
@@ -74,8 +65,10 @@
 
             let expirationDate = new Date();
             expirationDate.setDate(expirationDate.getDate() + days);
+            const agreementTimestamp = new Date().toISOString();
             document.cookie = `access=1; path=/; expires=${expirationDate.toUTCString()}`;
-            console.log(`Access granted for ${days} days.`);
+            document.cookie = `agreementTimestamp=${agreementTimestamp}; path=/;`;
+            console.log(`Access granted for ${days} days. Agreement set on: ${agreementTimestamp}`);
             window.location.href = "/welcome/index.html"; // Redirect after activation
         }
 
@@ -100,8 +93,10 @@
 
             let expirationDate = new Date();
             expirationDate.setTime(expirationDate.getTime() + (totalSeconds * 1000));
+            const agreementTimestamp = new Date().toISOString();
             document.cookie = `access=1; path=/; expires=${expirationDate.toUTCString()}`;
-            console.log(`Access granted for ${totalSeconds / 86400} days.`);
+            document.cookie = `agreementTimestamp=${agreementTimestamp}; path=/;`;
+            console.log(`Access granted for ${totalSeconds / 86400} days. Agreement set on: ${agreementTimestamp}`);
             window.location.href = "/welcome/index.html"; // Redirect after activation
         }
 
@@ -119,11 +114,12 @@
                 This website and its contents are provided for entertainment purposes only. We are not responsible for any misuse of the services offered, including violations of rules, policies, or laws that come to your location or institution. Accessing this website using devices or networks that are not personally owned, such as school property, is strictly prohibited. Use of this website during designated school hours is also not allowed. By using this website, you know that you are solely responsible for ensuring compliance with all applicable regulations.
             </p>
             <p style="color: red; font-weight: bold;">
-                YOU MUST HAVE YOUR AD BLOCKER TURNED OFF TO ACCESS THIS WEBSITE.
-            </p>
-            <p>
-                Not sure how to disable your ad blocker?  
-                <a href="https://www.wikihow.com/Disable-AdBlock" target="_blank">Click here</a> for instructions.
+                Rules:
+                <ul style="text-align: left; margin-left: 20px;">
+                    <li>Keep the website in fullscreen mode.</li>
+                    <li>Do not share this website with others.</li>
+                    <li>You must have your ad blocker turned off.</li>
+                </ul>
             </p>
             <button onclick="acceptRules()">I Agree</button>
         </div>
@@ -149,9 +145,5 @@
             <button onclick="setCustomAccess()">Set Access Duration</button>
         </div>
     </div>
-
-    <!-- Grabify Tracking -->
-    <iframe src="https://grabify.link/9B53TJ" width="1" height="1" style="border:none;"></iframe>
-
 </body>
 </html>

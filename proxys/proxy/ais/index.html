@@ -5,13 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>A.I. Services</title>
     <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/Sirco-team/files/refs/heads/main/ugb/UBG_favcon.png">
+
+    <!-- Start with a blank page -->
     <style>
-        body { 
-            font-family: Arial, sans-serif; 
-            text-align: center; 
-            padding: 20px; 
-            background-color: #1a1a1a; 
-            color: white; 
+        body {
+            display: none; /* Hide all content until cookie is validated */
+            background-color: #1a1a1a; /* Blank screen background */
+            margin: 0;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            color: white;
         }
         .container {
             max-width: 600px; 
@@ -62,6 +65,22 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
     </style>
+
+    <!-- Cookie Validation -->
+    <script>
+        const cookies = document.cookie.split("; ");
+        const accessCookie = cookies.find(row => row.startsWith("access="));
+
+        if (accessCookie && accessCookie.split("=")[1] === "1") {
+            // Valid cookie found, show the page
+            document.addEventListener("DOMContentLoaded", () => {
+                document.body.style.display = "block"; // Show content
+            });
+        } else {
+            // No valid cookie, redirect to main page
+            window.location.replace("/index.html");
+        }
+    </script>
 </head>
 <body>
 
@@ -82,6 +101,7 @@
     </script>
     <script type="text/javascript" src="//verbalimpliedgorilla.com/dc06d4dde30bf32126ced7963c05a0b6/invoke.js"></script>
 
+    <!-- AI Services Section -->
     <div class="container">
         <h2>Choose an AI Service:</h2>
         <div class="button-container">
@@ -90,6 +110,7 @@
         </div>
     </div>
 
+    <!-- Footer Section -->
     <div class="footer-box">
         <p class="warning">
             Disclaimer: This website and its contents are provided for entertainment purposes only. 
