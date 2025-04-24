@@ -5,8 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Games Page</title>
     <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/Sirco-team/files/refs/heads/main/ugb/UBG_favcon.png">
-    
-    <!-- Start with a blank page -->
+
     <style>
         body {
             display: none; /* Hide all content until cookie is validated */
@@ -39,14 +38,29 @@
             display: inline-block;
             margin-top: 10px;
             padding: 8px 12px;
-            font-size: 0.9em;
-            background-color: #007bff;
-            color: white;
             text-decoration: none;
             border-radius: 5px;
         }
-        .game a:hover {
-            background-color: #0056b3;
+        .game a.active {
+            background-color: #28a745; /* Green for active games */
+            color: white;
+        }
+        .game a.active:hover {
+            background-color: #218838;
+        }
+        .game a.risky {
+            background-color: #ffc107; /* Yellow for risky games */
+            color: black;
+        }
+        .game a.risky:hover {
+            background-color: #e0a800;
+        }
+        .game a.disabled {
+            background-color: #dc3545; /* Red for disabled games */
+            color: white;
+        }
+        .game a.disabled:hover {
+            background-color: #b02a37;
         }
         .back-button {
             margin: 20px;
@@ -72,19 +86,59 @@
 
     <!-- Cookie Validation -->
     <script>
-        // Check for access cookie
         const cookies = document.cookie.split("; ");
         const accessCookie = cookies.find(row => row.startsWith("access="));
 
         if (accessCookie && accessCookie.split("=")[1] === "1") {
-            // Valid cookie found, show the page
             document.addEventListener("DOMContentLoaded", () => {
                 document.body.style.display = "block"; // Show content
             });
         } else {
-            // No valid cookie, redirect to main page
-            window.location.replace("/index.html");
+            window.location.replace("/index.html"); // Redirect if no valid cookie
         }
+
+        // Game List with Numeric Status
+        const games = [
+            { title: "REQUEST GAMES", img: "form.png", link: "https://forms.office.com/Pages/ResponsePage.aspx?id=DQSIkWdsW0yxEjajBLZtrQAAAAAAAAAAAAO__VD4IRRUM0QyRUFTUTFGSDVLRVBHRUQwTzA3TVJDNi4u", status: 1 }, // Active
+            { title: "Cluster Rush", img: "imgs/ClusterRush.png", link: "game/ClusterRush/index.html", status: 1 },
+            { title: "Retro Bowl", img: "imgs/RetoBowl.png", link: "game/Retrobowl/index.html", status: 1 },
+            { title: "1v1.lol", img: "imgs/1v1lol.png", link: "game/1v1lol/index.html", status: 1 },
+        ];
+
+        // Dynamically add games
+        function loadGames() {
+            const gamesList = document.getElementById("gamesList");
+
+            games.forEach(game => {
+                const gameDiv = document.createElement("div");
+                gameDiv.classList.add("game");
+
+                // Generate button style and functionality
+                if (game.status === 1) {
+                    gameDiv.innerHTML = `
+                        <img src="${game.img}" alt="${game.title}">
+                        <h3>${game.title}</h3>
+                        <a href="${game.link}" class="active">Play Now</a>
+                    `;
+                } else if (game.status === 2) {
+                    gameDiv.innerHTML = `
+                        <img src="${game.img}" alt="${game.title}">
+                        <h3>${game.title}</h3>
+                        <a href="${game.link}" class="risky" onclick="alert('Use this game at your own risk.');">Play Now</a>
+                    `;
+                } else if (game.status === 3) {
+                    gameDiv.innerHTML = `
+                        <img src="${game.img}" alt="${game.title}">
+                        <h3>${game.title}</h3>
+                        <a href="#" class="disabled" onclick="alert('Sorry, this game has been disabled by UBG and Firewall Freedom. Please check soon if it is back up.'); return false;">Disabled</a>
+                    `;
+                }
+
+                gamesList.appendChild(gameDiv);
+            });
+        }
+
+        document.addEventListener("DOMContentLoaded", loadGames);
     </script>
 </head>
 <body>
@@ -96,36 +150,12 @@
 
     <!-- Game List Container -->
     <div class="game-container" id="gamesList">
-        <!-- Games will be dynamically added here -->
+        <!-- Games dynamically added here -->
     </div>
 
     <footer>
         <p>&copy; 2025 UBG MASTER. + &copy; 2025 Firewall Freedom. All rights reserved.</p>
         <p>Disclaimer: This website is not affiliated with any of the games listed. All rights belong to their respective owners.</p>
     </footer>
-
-    <script>
-        // Game list provided
-        const games = [
-            { title: "REQUEST GAMES", img: "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fmailmeteor.com%2Flogos%2Flogos%2Fassets%2FPNG%2FGoogle_Forms_Logo_512px.png&f=1&nofb=1", link: "https://forms.office.com/Pages/ResponsePage.aspx?id=DQSIkWdsW0yxEjajBLZtrQAAAAAAAAAAAAO__VD4IRRUM0QyRUFTUTFGSDVLRVBHRUQwTzA3TVJDNi4u" },
-            { title: "Cluster Rush", img: "imgs/ClusterRush.png", link: "game/ClusterRush/index.html" },
-            { title: "Retro Bowl", img: "imgs/RetoBowl.png", link: "game/Retrobowl/index.html" },
-            { title: "1v1.lol", img: "imgs/1v1lol.png", link: "game/1v1lol/index.html" }
-        ];
-
-        // Dynamically add games to the page
-        const gamesList = document.getElementById("gamesList");
-
-        games.forEach(game => {
-            const gameDiv = document.createElement("div");
-            gameDiv.classList.add("game");
-            gameDiv.innerHTML = `
-                <img src="${game.img}" alt="${game.title}">
-                <h3>${game.title}</h3>
-                <a href="${game.link}" target="_blank">Play Now</a>
-            `;
-            gamesList.appendChild(gameDiv);
-        });
-    </script>
 </body>
 </html>
