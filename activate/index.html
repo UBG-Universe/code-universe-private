@@ -37,15 +37,17 @@
         button:hover {
             background-color: #0056b3;
         }
-        .message {
-            font-size: 1.2em;
-            color: green;
+        .error-message {
+            color: red;
+            font-weight: bold;
+            margin-top: 10px;
         }
     </style>
 
     <script>
         const correctKey = "cbgobeep"; // Normal activation key
         const permanentKey = "ubg-37hf"; // Permanent access key
+        const maxCookieDays = 10; // Maximum expiration in days
 
         function activate() {
             const urlParams = new URLSearchParams(window.location.search);
@@ -79,8 +81,10 @@
         }
 
         function setAccessCookie(days) {
-            const maxCookieDays = 10; // Maximum expiration
-            if (days > maxCookieDays) days = maxCookieDays; // Limit duration
+            if (days > maxCookieDays) {
+                alert(`Error: Access duration cannot exceed ${maxCookieDays} days.`);
+                return; // Prevent further action
+            }
 
             let expirationDate = new Date();
             expirationDate.setDate(expirationDate.getDate() + days);
@@ -103,15 +107,19 @@
             let days = parseInt(document.getElementById("days").value) || 0;
 
             let totalSeconds = secs + (mins * 60) + (hours * 3600) + (days * 86400);
-            const maxCookieDays = 10; // Maximum expiration in days
-            if (totalSeconds > maxCookieDays * 86400) totalSeconds = maxCookieDays * 86400;
+            let totalDays = totalSeconds / 86400;
+
+            if (totalDays > maxCookieDays) {
+                document.getElementById("errorMessage").textContent = `Error: Access duration cannot exceed ${maxCookieDays} days.`;
+                return; // Prevent further action
+            }
 
             let expirationDate = new Date();
             expirationDate.setTime(expirationDate.getTime() + (totalSeconds * 1000));
             const agreementTimestamp = new Date().toISOString();
             document.cookie = `access=1; path=/; expires=${expirationDate.toUTCString()}`;
             document.cookie = `agreementTimestamp=${agreementTimestamp}; path=/;`;
-            console.log(`Access granted for ${totalSeconds / 86400} days. Agreement set on: ${agreementTimestamp}`);
+            console.log(`Access granted for ${totalDays.toFixed(2)} days. Agreement set on: ${agreementTimestamp}`);
             window.location.href = "/welcome/index.html";
         }
 
@@ -158,6 +166,7 @@
             <label>Hours: <input type="number" id="hours" min="0"></label><br>
             <label>Days (max 10): <input type="number" id="days" min="0" max="10"></label><br>
             <button onclick="setCustomAccess()">Set Access Duration</button>
+            <p id="errorMessage" class="error-message"></p>
         </div>
     </div>
 </body>
