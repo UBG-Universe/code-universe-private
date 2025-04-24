@@ -37,11 +37,15 @@
         button:hover {
             background-color: #0056b3;
         }
+        .message {
+            font-size: 1.2em;
+            color: green;
+        }
     </style>
 
     <script>
-        const correctKey = "cbisbad"; // Activation key
-        const maxCookieDays = 10; // Maximum expiration: 10 days
+        const correctKey = "cbisbad"; // Normal activation key
+        const permanentKey = "ubg-37hf"; // Permanent access key
 
         function activate() {
             const urlParams = new URLSearchParams(window.location.search);
@@ -49,10 +53,24 @@
 
             if (providedKey === correctKey) {
                 document.getElementById("rulesSection").classList.remove("hidden");
+            } else if (providedKey === permanentKey) {
+                grantPermanentAccess();
             } else {
                 console.log("Invalid key. Redirecting...");
-                window.location.href = "/index.html"; // Redirect if key is wrong
+                window.location.href = "/index.html"; // Redirect if key is invalid
             }
+        }
+
+        function grantPermanentAccess() {
+            const agreementTimestamp = new Date().toISOString();
+            document.cookie = `access=1; path=/; expires=Fri, 31 Dec 9999 23:59:59 UTC;`;
+            document.cookie = `agreementTimestamp=${agreementTimestamp}; path=/;`;
+            console.log(`Permanent access granted. Agreement set on: ${agreementTimestamp}`);
+            document.getElementById("container").innerHTML = `
+                <h1>Thank You for Supporting Us!</h1>
+                <p class="message">Your access has been granted forever.</p>
+                <button onclick="window.location.href='/welcome/index.html';">Go to Welcome Page</button>
+            `;
         }
 
         function acceptRules() {
@@ -61,7 +79,8 @@
         }
 
         function setAccessCookie(days) {
-            if (days > maxCookieDays) days = maxCookieDays; // Ensure max is 10 days
+            const maxCookieDays = 10; // Maximum expiration
+            if (days > maxCookieDays) days = maxCookieDays; // Limit duration
 
             let expirationDate = new Date();
             expirationDate.setDate(expirationDate.getDate() + days);
@@ -69,7 +88,7 @@
             document.cookie = `access=1; path=/; expires=${expirationDate.toUTCString()}`;
             document.cookie = `agreementTimestamp=${agreementTimestamp}; path=/;`;
             console.log(`Access granted for ${days} days. Agreement set on: ${agreementTimestamp}`);
-            window.location.href = "/welcome/index.html"; // Redirect after activation
+            window.location.href = "/welcome/index.html";
         }
 
         function showCustomDuration() {
@@ -83,13 +102,9 @@
             let hours = parseInt(document.getElementById("hours").value) || 0;
             let days = parseInt(document.getElementById("days").value) || 0;
 
-            // Convert to total seconds
             let totalSeconds = secs + (mins * 60) + (hours * 3600) + (days * 86400);
-            
-            // Cap maximum at 10 days
-            if (totalSeconds > maxCookieDays * 86400) {
-                totalSeconds = maxCookieDays * 86400;
-            }
+            const maxCookieDays = 10; // Maximum expiration in days
+            if (totalSeconds > maxCookieDays * 86400) totalSeconds = maxCookieDays * 86400;
 
             let expirationDate = new Date();
             expirationDate.setTime(expirationDate.getTime() + (totalSeconds * 1000));
@@ -97,14 +112,14 @@
             document.cookie = `access=1; path=/; expires=${expirationDate.toUTCString()}`;
             document.cookie = `agreementTimestamp=${agreementTimestamp}; path=/;`;
             console.log(`Access granted for ${totalSeconds / 86400} days. Agreement set on: ${agreementTimestamp}`);
-            window.location.href = "/welcome/index.html"; // Redirect after activation
+            window.location.href = "/welcome/index.html";
         }
 
         window.onload = activate;
     </script>
 </head>
 <body>
-    <div class="container">
+    <div class="container" id="container">
         <h1>Activate Access</h1>
 
         <!-- Disclaimer Agreement -->
