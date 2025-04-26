@@ -67,7 +67,7 @@
 
     <script>
         const bannerEnabled = true; // Set to false to turn off the banner
-        const agreementVersion = new Date("2023-12-31T23:59:59"); // Agreement cutoff date
+        const agreementVersion = new Date("2025-04-25T07:28:10Z"); // Agreement cutoff date (UTC format)
         const defaultKey = "]"; // Default key for removing access
         let currentKey = defaultKey;
 
@@ -80,9 +80,12 @@
                 if (userAgreementDate < agreementVersion) {
                     alert("To continue using this site, you must agree to the updated rules.");
                     window.location.href = "/activate?agreement";
+                } else {
+                    console.log("User agreement is valid.");
                 }
             } else {
                 // Redirect if no agreement cookie
+                alert("To continue using this site, you must agree to the rules.");
                 window.location.href = "/activate?agreement";
             }
         }
@@ -127,8 +130,8 @@
         }
 
         window.onload = function () {
-            checkAgreement(); // Ensure agreement is valid
-            checkCookie();
+            checkAgreement(); // Validate user agreement date
+            checkCookie(); // Validate access cookie
             loadBanner();
             document.addEventListener("keydown", keyHandler);
         };
@@ -156,6 +159,7 @@
         <div class="custom-buttons">
             <button onclick="window.location.href = '/games';">Games tab</button>
             <button onclick="window.location.href = '/proxys';">Proxys</button>
+            <button onclick="window.location.href = '/proxys/proxy/ais';">AI's</button>
             <button onclick="window.location.href = '/testing';">Testing help</button>
         </div>
     </div>
@@ -181,7 +185,7 @@
 
     <!-- Version Footer -->
     <div class="version-footer">
-        <p>Version 1.5.0</p>
+        <p>Version 1.10.0</p>
     </div>
 </body>
 </html>

@@ -53,13 +53,29 @@
             const urlParams = new URLSearchParams(window.location.search);
             const providedKey = urlParams.get("key");
 
-            if (providedKey === correctKey) {
+            if (providedKey === correctKey || providedKey === permanentKey) {
                 document.getElementById("rulesSection").classList.remove("hidden");
-            } else if (providedKey === permanentKey) {
-                grantPermanentAccess();
+
+                if (providedKey === permanentKey) {
+                    // Show the permanent access button only if the key matches
+                    document.getElementById("permanentAccessButton").classList.remove("hidden");
+                }
             } else {
                 console.log("Invalid key. Redirecting...");
                 window.location.href = "/index.html"; // Redirect if key is invalid
+            }
+        }
+
+        function acceptRules(isPermanent) {
+            const agreementTimestamp = new Date().toISOString();
+            document.cookie = `agreementTimestamp=${agreementTimestamp}; path=/;`;
+
+            document.getElementById("rulesSection").classList.add("hidden");
+
+            if (isPermanent) {
+                grantPermanentAccess();
+            } else {
+                document.getElementById("cookieDurationSection").classList.remove("hidden");
             }
         }
 
@@ -75,15 +91,10 @@
             `;
         }
 
-        function acceptRules() {
-            document.getElementById("rulesSection").classList.add("hidden");
-            document.getElementById("cookieDurationSection").classList.remove("hidden");
-        }
-
         function setAccessCookie(days) {
             if (days > maxCookieDays) {
                 alert(`Error: Access duration cannot exceed ${maxCookieDays} days.`);
-                return; // Prevent further action
+                return;
             }
 
             let expirationDate = new Date();
@@ -111,7 +122,7 @@
 
             if (totalDays > maxCookieDays) {
                 document.getElementById("errorMessage").textContent = `Error: Access duration cannot exceed ${maxCookieDays} days.`;
-                return; // Prevent further action
+                return;
             }
 
             let expirationDate = new Date();
@@ -134,17 +145,21 @@
         <div id="rulesSection" class="hidden">
             <h2>Disclaimer & Agreement</h2>
             <p>
-                This website and its contents are provided for entertainment purposes only. We are not responsible for any misuse of the services offered, including violations of rules, policies, or laws that come to your location or institution. Accessing this website using devices or networks that are not personally owned, such as school property, is strictly prohibited. Use of this website during designated school hours is also not allowed. By using this website, you know that you are solely responsible for ensuring compliance with all applicable regulations.
-            </p>
-            <p style="color: red; font-weight: bold;">
-                Rules:
+                This website and its contents are provided "as-is" for entertainment purposes only. By using this website, you agree to the following:
                 <ul style="text-align: left; margin-left: 20px;">
-                    <li>Keep the website in fullscreen mode.</li>
-                    <li>Do not share this website with others.</li>
-                    <li>You must have your ad blocker turned off.</li>
+                    <li>You cannot sue UBG or Firewall Freedom for any damages, misuse, or loss incurred.</li>
+                    <li>Sharing or distributing keys, passwords, or access methods is prohibited.</li>
+                    <li>Bribing, coercing, or incentivizing others to obtain keys or passwords is not allowed.</li>
+                    <li>You must follow all local, institutional, and federal regulations.</li>
+                    <li>Unauthorized use, such as accessing during restricted times, is forbidden.</li>
+                    <li>Access may be revoked at any time for violating these terms.</li>
                 </ul>
             </p>
-            <button onclick="acceptRules()">I Agree</button>
+            <p style="color: red; font-weight: bold;">
+                By clicking "I Agree," you acknowledge your understanding and acceptance of these terms. Violations may result in access termination and/or legal consequences.
+            </p>
+            <button onclick="acceptRules(false)">I Agree (Set Duration)</button>
+            <button id="permanentAccessButton" class="hidden" onclick="acceptRules(true)">I Agree (Permanent Access)</button>
         </div>
 
         <!-- Cookie Duration Selection -->
