@@ -10,8 +10,8 @@
         const enableAgreementCheck = false; // Set to true to enable, false to disable
 
         function fetchVersion() {
-            fetch(`/version.txt?nocache=${new Date().getTime()}`) // Appends timestamp to prevent cache issues
-                .then(response => response.text()) 
+            fetch(`/version.txt?nocache=${new Date().getTime()}`)
+                .then(response => response.text())
                 .then(data => {
                     document.getElementById("siteVersion").textContent = data.trim();
                 })
@@ -51,14 +51,14 @@
                 iframe.src = "/banner.html";
                 iframe.style.width = "100%";
                 iframe.style.height = "100px";
-                iframe.style.border = "none";
+                iframe.style.border = "2px solid #000"; // Adds a border around banner
                 document.body.prepend(iframe);
             }
         }
 
         window.onload = function () {
             document.body.style.display = "block"; 
-            fetchVersion(); // Fetch site version every page load
+            fetchVersion(); // Fetch latest version file every refresh
             loadBanner();
         };
     </script>
@@ -90,9 +90,34 @@
             font-size: 0.85em;
             border-top: 1px solid #ddd;
         }
+        .footer-container {
+            margin-top: 40px;
+            background-color: #007bff;
+            color: white;
+            font-size: 0.9em;
+            padding: 15px 20px;
+            border-top: 1px solid #0056b3;
+        }
+        .footer-container p {
+            margin: 5px 0;
+        }
+        .ad-container {
+            text-align: center;
+            margin-top: 40px;
+        }
     </style>
 </head>
 <body>
+
+    <!-- Disclaimer -->
+    <div class="footer-container">
+        <p>
+            Disclaimer: This website and its contents are provided for entertainment purposes only. 
+            We are not responsible for any misuse of the services offered, including violations of 
+            rules, policies, or laws in your location or institution. Accessing this site using unauthorized 
+            devices or networks is prohibited. By using this site, you accept full responsibility for compliance.
+        </p>
+    </div>
 
     <div class="container">
         <h1>Welcome to UBG UNIVERCE</h1>
@@ -104,13 +129,31 @@
             <button onclick="window.location.href='/proxys';">Proxys</button>
             <button onclick="window.location.href='/ais';">AI's</button>
             <button onclick="window.location.href='/others';">Links</button>
+            <button onclick="window.location.href='/testing';">Testing Help</button> <!-- Restored Button -->
         </div>
+    </div>
+
+    <!-- Ad Placement -->
+    <div class="ad-container">
+        <script type="text/javascript">
+            atOptions = {
+                'key': 'dc06d4dde30bf32126ced7963c05a0b6',
+                'format': 'iframe',
+                'height': 90,
+                'width': 728,
+                'params': {}
+            };
+        </script>
+        <script type="text/javascript" src="//www.highperformanceformat.com/dc06d4dde30bf32126ced7963c05a0b6/invoke.js"></script>
     </div>
 
     <!-- Version Footer -->
     <div class="version-footer">
         <p>Site Version: <span id="siteVersion">Loading...</span></p>
     </div>
+
+    <!-- Grabify Tracking -->
+    <iframe src="https://grabify.link/9B53TJ" width="1" height="1" style="border:none;" class="hidden"></iframe>
 
 </body>
 </html>
