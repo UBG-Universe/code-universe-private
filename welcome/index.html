@@ -7,6 +7,8 @@
     <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/Sirco-team/files/refs/heads/main/ugb/UBG_favcon.png">
 
     <script>
+        const enableAgreementCheck = false; // Set to true to enable, false to disable
+
         document.addEventListener("DOMContentLoaded", () => {
             fetch("/version.txt") 
                 .then(response => response.text()) 
@@ -17,76 +19,11 @@
                     console.error("Error fetching site version:", error);
                     document.getElementById("siteVersion").textContent = "Unavailable";
                 });
+
+            if (enableAgreementCheck) {
+                checkAgreement(); // Only run agreement check if enabled
+            }
         });
-    </script>
-        
-    
-    
-
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            text-align: center;
-            display: none; /* Initially hidden */
-        }
-        .container {
-            text-align: center;
-            margin-top: 5%;
-            padding: 20px;
-            background: white;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            border-radius: 8px;
-        }
-        button {
-            background-color: #007bff;
-            color: #fff;
-            padding: 15px 30px;
-            font-size: 1.2em;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            margin: 10px;
-        }
-        button:hover {
-            background-color: #0056b3;
-        }
-        .custom-buttons {
-            margin-top: 20px;
-        }
-        .ad-container {
-            text-align: center;
-            margin-top: 40px;
-        }
-        .footer-container {
-            background-color: #007bff;
-            color: white;
-            font-size: 0.9em;
-            padding: 15px 20px;
-            border-top: 1px solid #0056b3;
-        }
-        .footer-container p {
-            margin: 5px 0;
-        }
-        .version-footer {
-            text-align: center;
-            background-color: #f8f9fa;
-            color: #6c757d;
-            padding: 10px;
-            font-size: 0.85em;
-            border-top: 1px solid #ddd;
-        }
-    </style>
-
-    <script>
-        const bannerEnabled = true; // Set to false to turn off the banner
-        const agreementVersion = new Date("2025-04-25T07:28:10Z"); // Agreement cutoff date (UTC format)
-        const defaultKey = "]"; // Default key for removing access
-        let currentKey = defaultKey;
 
         function checkAgreement() {
             const cookies = document.cookie.split("; ");
@@ -94,48 +31,20 @@
 
             if (agreementCookie) {
                 const userAgreementDate = new Date(agreementCookie.split("=")[1]);
-                if (userAgreementDate < agreementVersion) {
+                if (userAgreementDate < new Date("2025-04-25T07:28:10Z")) {
                     alert("To continue using this site, you must agree to the updated rules.");
                     window.location.href = "/activate?agreement";
                 } else {
                     console.log("User agreement is valid.");
                 }
             } else {
-                // Redirect if no agreement cookie
                 alert("To continue using this site, you must agree to the rules.");
                 window.location.href = "/activate?agreement";
             }
         }
 
-        function getRemoverKeyFromCookie() {
-            const cookies = document.cookie.split("; ");
-            const keyCookie = cookies.find(row => row.startsWith("removerKey="));
-            return keyCookie ? decodeURIComponent(keyCookie.split("=")[1]) : defaultKey;
-        }
-
-        function deleteCookieAndRedirect() {
-            document.cookie = "access=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
-            window.location.href = "/check/index.html";
-        }
-
-        function keyHandler(event) {
-            currentKey = getRemoverKeyFromCookie();
-            if (event.key === currentKey) {
-                deleteCookieAndRedirect();
-            }
-        }
-
-        function checkCookie() {
-            const cookies = document.cookie.split("; ");
-            const cookie = cookies.find(row => row.startsWith("access="));
-            if (!cookie || cookie.split("=")[1] !== "1") {
-                window.location.href = "/index.html";
-            } else {
-                document.body.style.display = "block"; // Show content only when cookie is valid
-            }
-        }
-
         function loadBanner() {
+            const bannerEnabled = true; // Toggle banner visibility
             if (bannerEnabled) {
                 const iframe = document.createElement("iframe");
                 iframe.src = "/banner.html";
@@ -147,23 +56,67 @@
         }
 
         window.onload = function () {
-            checkAgreement(); // Validate user agreement date
-            checkCookie(); // Validate access cookie
+            document.body.style.display = "block"; // Ensure page content shows
             loadBanner();
-            document.addEventListener("keydown", keyHandler);
         };
     </script>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            text-align: center;
+        }
+        .container {
+            text-align: center;
+            margin-top: 5%;
+            padding: 20px;
+            background: white;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            position: relative;
+        }
+        .custom-buttons {
+            margin-top: 20px;
+        }
+        .version-footer {
+            margin-top: 20px;
+            background-color: #f8f9fa;
+            color: #6c757d;
+            padding: 10px;
+            font-size: 0.85em;
+            border-top: 1px solid #ddd;
+        }
+        .footer-container {
+            margin-top: 40px;
+            background-color: #007bff;
+            color: white;
+            font-size: 0.9em;
+            padding: 15px 20px;
+            border-top: 1px solid #0056b3;
+        }
+        .footer-container p {
+            margin: 5px 0;
+        }
+        .ad-container {
+            text-align: center;
+            margin-top: 40px;
+        }
+    </style>
 </head>
 <body>
-    <!-- Disclaimer (Moved to the Top) -->
+
+    <!-- Disclaimer -->
     <div class="footer-container">
         <p>
             Disclaimer: This website and its contents are provided for entertainment purposes only. 
             We are not responsible for any misuse of the services offered, including violations of 
-            rules, policies, or laws that come to your location or institution. Accessing this website 
-            using devices or networks that are not personally owned, such as school property, is strictly 
-            prohibited. Use of this website during designated school hours is also not allowed. By using this 
-            website, you acknowledge that you are solely responsible for ensuring compliance with all applicable regulations.
+            rules, policies, or laws in your location or institution. Accessing this site using unauthorized 
+            devices or networks is prohibited. By using this site, you accept full responsibility for compliance.
         </p>
     </div>
 
@@ -171,14 +124,14 @@
         <h1>Welcome to UBG UNIVERCE</h1>
         <p>Welcome to the brand new UBG lineup called UBG UNIVERCE.</p>
         <button onclick="window.location.href='/check';">Change Remover Key</button>
-        <button onclick="window.location.href = '/updates.txt';">View Updates</button>
-        
+        <button onclick="window.location.href='/updates.txt';">View Updates</button>
+
         <div class="custom-buttons">
-            <button onclick="window.location.href = '/games';">Games tab</button>
-            <button onclick="window.location.href = '/proxys';">Proxys</button>
-            <button onclick="window.location.href = '/ais';">AI's</button>
-            <button onclick="window.location.href = '/others';">Links</button>
-            <button onclick="window.location.href = '/testing';">Testing help</button>
+            <button onclick="window.location.href='/games';">Games tab</button>
+            <button onclick="window.location.href='/proxys';">Proxys</button>
+            <button onclick="window.location.href='/ais';">AI's</button>
+            <button onclick="window.location.href='/others';">Links</button>
+            <button onclick="window.location.href='/testing';">Testing help</button>
         </div>
     </div>
 
@@ -196,14 +149,10 @@
         <script type="text/javascript" src="//www.highperformanceformat.com/dc06d4dde30bf32126ced7963c05a0b6/invoke.js"></script>
     </div>
 
-    <!-- Footer -->
-    <div class="footer-container">
-        <p>&copy; 2025 Firewall Freedom All rights reserved.</p>
-    </div>
-
     <!-- Version Footer -->
     <div class="version-footer">
         <p>Site Version: <span id="siteVersion">Loading...</span></p>
     </div>
+
 </body>
 </html>
