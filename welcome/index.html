@@ -6,6 +6,22 @@
     <title>Welcome Page</title>
     <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/Sirco-team/files/refs/heads/main/ugb/UBG_favcon.png">
 
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            fetch("/version.json") 
+                .then(response => response.json()) 
+                .then(data => {
+                    document.getElementById("siteVersion").textContent = data.site_version;
+                })
+                .catch(error => {
+                    console.error("Error fetching site version:", error);
+                    document.getElementById("siteVersion").textContent = "Unavailable";
+                });
+        });
+    </script>
+    
+    
+
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -160,6 +176,7 @@
             <button onclick="window.location.href = '/games';">Games tab</button>
             <button onclick="window.location.href = '/proxys';">Proxys</button>
             <button onclick="window.location.href = '/ais';">AI's</button>
+            <button onclick="window.location.href = '/others';">Links</button>
             <button onclick="window.location.href = '/testing';">Testing help</button>
         </div>
     </div>
@@ -185,7 +202,7 @@
 
     <!-- Version Footer -->
     <div class="version-footer">
-        <p>Version 1.12.0</p>
+        <p>Site Version: <span id="siteVersion">Loading...</span></p>
     </div>
 </body>
 </html>
