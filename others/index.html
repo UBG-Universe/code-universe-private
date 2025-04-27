@@ -19,11 +19,11 @@
         let highestVersion = "Checking..."; // Start unknown
 
         function fetchMainSiteVersion() {
-            fetch(`${mainSiteURL}version.json`)
-                .then(response => response.json())
+            fetch(`${mainSiteURL}version.txt`)
+                .then(response => response.text())
                 .then(data => {
-                    document.getElementById("mainSiteVersion").textContent = data.site_version;
-                    highestVersion = data.site_version; // Assume main site has highest version initially
+                    document.getElementById("mainSiteVersion").textContent = data.trim();
+                    highestVersion = data.trim(); // Assume main site has highest version initially
                 })
                 .catch(error => {
                     console.error("Error fetching main site version:", error);
@@ -39,14 +39,14 @@
                 siteRow.innerHTML = `<strong>${site}:</strong> <span id="${site}-version" class="loading">Checking...</span>`;
                 siteList.appendChild(siteRow);
 
-                fetch(`https://${site}/version.json`)
-                    .then(response => response.json())
+                fetch(`https://${site}/version.txt`)
+                    .then(response => response.text())
                     .then(data => {
-                        document.getElementById(`${site}-version`).textContent = data.site_version;
+                        document.getElementById(`${site}-version`).textContent = data.trim();
 
                         // Compare versions to find the latest
-                        if (data.site_version > highestVersion) {
-                            highestVersion = data.site_version;
+                        if (data.trim() > highestVersion) {
+                            highestVersion = data.trim();
                             document.getElementById("highestVersion").textContent = `Newest version found on: ${site} (${highestVersion})`;
                         }
                     })
@@ -84,6 +84,20 @@
             color: #007bff;
             margin-top: 20px;
         }
+        .back-button {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 1em;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        .back-button:hover {
+            background-color: #0056b3;
+        }
     </style>
 </head>
 <body>
@@ -92,7 +106,7 @@
     <p>This page checks the version of different UBG mirror sites.</p>
 
     <div class="highlight">
-        <p>Main Site: <a href="https://www.lbv.giize.com/" target="_blank">sirco-team.github.io/code-universe</a></p>
+        <p>Main Site: <a href="https://www.lbv.giize.com/" target="_blank">https://www.lbv.giize.com/</a></p>
         <p>Main Site Version: <span id="mainSiteVersion">Checking...</span></p>
         <p id="highestVersion">Checking for the latest version...</p>
     </div>
@@ -100,6 +114,9 @@
     <div id="siteList" class="site-list">
         <!-- Versions will be dynamically generated here -->
     </div>
+
+    <!-- Back Button -->
+    <button class="back-button" onclick="window.location.href='/welcome';">Back to Welcome Page</button>
 
 </body>
 </html>
