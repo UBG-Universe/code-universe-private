@@ -5,8 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>UBG Mirror Site Checker</title>
     <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/Sirco-team/files/refs/heads/main/ugb/UBG_favcon.png">
+    
     <script defer>
-        // Define main site URL directly here
+        // Define main site URL
         const mainSiteURL = "https://www.lbv.giize.com/";
 
         // List of mirror sites to check
@@ -36,7 +37,7 @@
 
             siteNames.forEach(site => {
                 const siteRow = document.createElement("p");
-                siteRow.innerHTML = `<strong>${site}:</strong> <span id="${site}-version" class="loading">Checking...</span>`;
+                siteRow.innerHTML = `<strong><a href="https://${site}" target="_blank">${site}</a>:</strong> <span id="${site}-version" class="loading">Checking...</span>`;
                 siteList.appendChild(siteRow);
 
                 fetch(`https://${site}/version.txt`)
