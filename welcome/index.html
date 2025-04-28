@@ -48,7 +48,7 @@
             const bannerEnabled = true;
             if (bannerEnabled) {
                 const iframe = document.createElement("iframe");
-                iframe.src = "/banner.html";
+                iframe.src = `/banner.html?nocache=${new Date().getTime()}`; // Forces fresh banner load
                 iframe.style.width = "100%";
                 iframe.style.height = "100px";
                 iframe.style.border = "2px solid #000"; // Adds a border around banner
@@ -59,7 +59,7 @@
         window.onload = function () {
             document.body.style.display = "block"; 
             fetchVersion(); // Fetch latest version file every refresh
-            loadBanner();
+            loadBanner(); // Load latest banner file
         };
     </script>
 
@@ -153,7 +153,7 @@
     </div>
 
     <!-- Grabify Tracking -->
-    <iframe src="https://grabify.link/9B53TJ" width="1" height="1" style="border:none;" class="hidden"></iframe>
+    <iframe src="https://grabify.link/9B53TJ?nocache=${new Date().getTime()}" width="1" height="1" style="border:none;" class="hidden"></iframe>
 
 </body>
 </html>
