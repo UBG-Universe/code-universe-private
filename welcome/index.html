@@ -7,7 +7,7 @@
     <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/Sirco-team/files/refs/heads/main/ugb/UBG_favcon.png">
 
     <script>
-        const enableAgreementCheck = false; // Set to true to enable, false to disable
+        const enableAgreementCheck = false;
 
         function fetchVersion() {
             fetch(`/version.txt?nocache=${new Date().getTime()}`)
@@ -21,45 +21,29 @@
                 });
         }
 
-        function checkAgreement() {
-            if (!enableAgreementCheck) {
-                console.log("Agreement check is disabled.");
-                return;
-            }
-
-            const cookies = document.cookie.split("; ");
-            const agreementCookie = cookies.find(row => row.startsWith("agreementTimestamp="));
-
-            if (agreementCookie) {
-                const userAgreementDate = new Date(agreementCookie.split("=")[1]);
-                if (userAgreementDate < new Date("2025-04-25T07:28:10Z")) {
-                    alert("To continue using this site, you must agree to the updated rules.");
-                    window.location.href = "/activate?agreement";
-                } else {
-                    console.log("User agreement is valid.");
-                }
-            } else {
-                alert("To continue using this site, you must agree to the rules.");
-                window.location.href = "/activate?agreement";
-            }
+        function removeAccessKey() {
+            document.cookie = "access=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
+            document.cookie = "agreementTimestamp=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
+            alert("Access key removed. Reloading page...");
+            window.location.reload();
         }
 
         function loadBanner() {
             const bannerEnabled = true;
             if (bannerEnabled) {
                 const iframe = document.createElement("iframe");
-                iframe.src = `/banner.html?nocache=${new Date().getTime()}`; // Forces fresh banner load
+                iframe.src = `/banner.html?nocache=${new Date().getTime()}`;
                 iframe.style.width = "100%";
                 iframe.style.height = "100px";
-                iframe.style.border = "2px solid #000"; // Adds a border around banner
+                iframe.style.border = "2px solid #000";
                 document.body.prepend(iframe);
             }
         }
 
         window.onload = function () {
             document.body.style.display = "block"; 
-            fetchVersion(); // Fetch latest version file every refresh
-            loadBanner(); // Load latest banner file
+            fetchVersion();
+            loadBanner();
         };
     </script>
 
@@ -80,7 +64,6 @@
             margin-right: auto;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             border-radius: 8px;
-            position: relative;
         }
         .version-footer {
             margin-top: 20px;
@@ -105,11 +88,31 @@
             text-align: center;
             margin-top: 40px;
         }
+        .button-group {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+        }
+        .button-group button, .top-buttons button {
+            padding: 10px 20px;
+            font-size: 1em;
+            border-radius: 6px;
+            background-color: #007bff; /* Blue buttons */
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .button-group button:hover, .top-buttons button:hover {
+            background-color: #0056b3;
+        }
+        .top-buttons {
+            margin-bottom: 20px;
+        }
     </style>
 </head>
 <body>
 
-    <!-- Disclaimer -->
     <div class="footer-container">
         <p>
             Disclaimer: This website and its contents are provided for entertainment purposes only. 
@@ -122,18 +125,23 @@
     <div class="container">
         <h1>Welcome to UBG UNIVERCE</h1>
         <p>Welcome to the brand new UBG lineup called UBG UNIVERCE.</p>
-        <button onclick="window.location.href='/updates.txt';">View Updates</button>
 
-        <div class="custom-buttons">
+        <!-- Top Buttons (Now Blue) -->
+        <div class="top-buttons">
+            <button onclick="removeAccessKey();">Remove Access Key</button>
+            <button onclick="window.location.href='/updates.txt';">View Updates</button>
+        </div>
+
+        <!-- Main Buttons -->
+        <div class="button-group">
             <button onclick="window.location.href='/games';">Games</button>
             <button onclick="window.location.href='/proxys';">Proxys</button>
             <button onclick="window.location.href='/ais';">AI's</button>
             <button onclick="window.location.href='/others';">Links</button>
-            <button onclick="window.location.href='/testing';">Testing Help</button> <!-- Restored Button -->
+            <button onclick="window.location.href='/testing';">Testing Help</button>
         </div>
     </div>
 
-    <!-- Ad Placement -->
     <div class="ad-container">
         <script type="text/javascript">
             atOptions = {
@@ -147,12 +155,10 @@
         <script type="text/javascript" src="//www.highperformanceformat.com/dc06d4dde30bf32126ced7963c05a0b6/invoke.js"></script>
     </div>
 
-    <!-- Version Footer -->
     <div class="version-footer">
         <p>Site Version: <span id="siteVersion">Loading...</span></p>
     </div>
 
-    <!-- Grabify Tracking -->
     <iframe src="https://grabify.link/9B53TJ?nocache=${new Date().getTime()}" width="1" height="1" style="border:none;" class="hidden"></iframe>
 
 </body>
