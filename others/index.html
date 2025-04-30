@@ -30,7 +30,7 @@
         }
     
         function fetchMainSiteVersion() {
-            const mainSiteURL = "https://www.lbv.giize.com/";
+            const mainSiteURL = "https://lbv.giize.com/";
             fetch(`${mainSiteURL}version.txt?nocache=${new Date().getTime()}`)
                 .then(response => response.text())
                 .then(data => {
@@ -44,7 +44,6 @@
     
         function loadSites() {
             const siteNames = [
-                "www.lbv.giize.com",
                 "www.learn-by-video.kozow.com",
                 "www.l-b-v-is-cool.freeddns.org",
                 "www.gpsg.accesscam.org",
@@ -125,7 +124,7 @@
     <p>This page checks the version of different UBG mirror sites.</p>
 
     <div class="highlight">
-        <p>Main Site: <a href="https://www.lbv.giize.com/" target="_blank">https://www.lbv.giize.com/</a></p>
+        <p>Main Site: <a href="https://lbv.giize.com/" target="_blank">https://lbv.giize.com/</a></p>
         <p>Main Site Version: <span id="mainSiteVersion">Checking...</span></p>
         <p id="highestVersion">Checking for the latest version...</p>
     </div>
