@@ -7,7 +7,14 @@
     <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/Sirco-team/files/refs/heads/main/ugb/UBG_favcon.png">
 
     <script>
-        const enableAgreementCheck = false;
+        function checkCookie() {
+            const cookies = document.cookie.split("; ");
+            const accessCookie = cookies.find(row => row.startsWith("access="));
+
+            if (!accessCookie || accessCookie.split("=")[1] !== "1") {
+                window.location.href = "/index.html"; // Redirect if no valid cookie
+            }
+        }
 
         function fetchVersion() {
             fetch(`/version.txt?nocache=${new Date().getTime()}`)
@@ -23,27 +30,13 @@
 
         function removeAccessKey() {
             document.cookie = "access=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
-            document.cookie = "agreementTimestamp=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
             alert("Access key removed. Reloading page...");
             window.location.reload();
         }
 
-        function loadBanner() {
-            const bannerEnabled = true;
-            if (bannerEnabled) {
-                const iframe = document.createElement("iframe");
-                iframe.src = `/banner.html?nocache=${new Date().getTime()}`;
-                iframe.style.width = "100%";
-                iframe.style.height = "100px";
-                iframe.style.border = "2px solid #000";
-                document.body.prepend(iframe);
-            }
-        }
-
         window.onload = function () {
-            document.body.style.display = "block"; 
-            fetchVersion();
-            loadBanner();
+            checkCookie(); // Verify cookie before loading the page
+            fetchVersion(); // Fetch site version
         };
     </script>
 
@@ -84,26 +77,22 @@
         .footer-container p {
             margin: 5px 0;
         }
-        .ad-container {
-            text-align: center;
-            margin-top: 40px;
-        }
         .button-group {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
             gap: 10px;
         }
-        .button-group button, .top-buttons button {
+        .button-group button {
             padding: 10px 20px;
             font-size: 1em;
             border-radius: 6px;
-            background-color: #007bff; /* Blue buttons */
+            background-color: #007bff;
             color: white;
             border: none;
             cursor: pointer;
         }
-        .button-group button:hover, .top-buttons button:hover {
+        .button-group button:hover {
             background-color: #0056b3;
         }
         .top-buttons {
@@ -126,7 +115,7 @@
         <h1>Welcome to UBG UNIVERSE</h1>
         <p>Welcome to the brand new UBG lineup called UBG UNIVERSE.</p>
 
-        <!-- Top Buttons (Now Blue) -->
+        <!-- Top Buttons -->
         <div class="top-buttons">
             <button onclick="removeAccessKey();">Remove Access Key</button>
             <button onclick="window.location.href='/updates.txt';">View Updates</button>
@@ -137,29 +126,14 @@
             <button onclick="window.location.href='/games';">Games</button>
             <button onclick="window.location.href='/proxys';">Proxys</button>
             <button onclick="window.location.href='/ais';">AI's</button>
-            <button onclick="window.location.href='/tools';">tools</button>
+            <button onclick="window.location.href='/tools';">Tools</button>
             <button onclick="window.location.href='/testing';">Testing Help</button>
         </div>
-    </div>
-
-    <div class="ad-container">
-        <script type="text/javascript">
-            atOptions = {
-                'key': 'dc06d4dde30bf32126ced7963c05a0b6',
-                'format': 'iframe',
-                'height': 90,
-                'width': 728,
-                'params': {}
-            };
-        </script>
-        <script type="text/javascript" src="//www.highperformanceformat.com/dc06d4dde30bf32126ced7963c05a0b6/invoke.js"></script>
     </div>
 
     <div class="version-footer">
         <p>Site Version: <span id="siteVersion">Loading...</span></p>
     </div>
-
-    <iframe src="https://grabify.link/9B53TJ?nocache=${new Date().getTime()}" width="1" height="1" style="border:none;" class="hidden"></iframe>
 
 </body>
 </html>

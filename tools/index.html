@@ -7,6 +7,22 @@
     <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/Sirco-team/files/refs/heads/main/ugb/UBG_favcon.png">
 
     <script>
+        function checkCookie() {
+            const cookies = document.cookie.split("; ");
+            const accessCookie = cookies.find(row => row.startsWith("access="));
+    
+            if (!accessCookie || accessCookie.split("=")[1] !== "1") {
+                window.location.href = "/index.html"; // Redirect if no valid cookie
+            }
+        }
+    
+        window.onload = function () {
+            checkCookie(); // Verify cookie before loading the page
+        };
+    </script>
+    
+
+    <script>
         function removeAccessKey() {
             document.cookie = "access=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
             document.cookie = "agreementTimestamp=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
@@ -85,7 +101,7 @@
 
         <!-- Main Tools Buttons -->
         <div class="button-group">
-            <button onclick="window.location.href='/tools';">Tools</button>
+            <button onclick="window.location.href='/other';">LINKS</button>
         </div>
     </div>
 

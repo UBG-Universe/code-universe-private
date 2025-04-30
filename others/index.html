@@ -6,12 +6,21 @@
     <title>UBG Mirror Site Checker</title>
     <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/Sirco-team/files/refs/heads/main/ugb/UBG_favcon.png">
 
-    <script defer>
+    <script>
+        function checkCookie() {
+            const cookies = document.cookie.split("; ");
+            const accessCookie = cookies.find(row => row.startsWith("access="));
+    
+            if (!accessCookie || accessCookie.split("=")[1] !== "1") {
+                window.location.href = "/index.html"; // Redirect if no valid cookie
+            }
+        }
+    
         const correctPassword = "pasword12345"; // Change this password as needed
-
+    
         function checkPassword() {
             const enteredPassword = prompt("Enter the password to access this page:");
-
+    
             if (enteredPassword !== correctPassword) {
                 alert("Incorrect password. Redirecting...");
                 window.location.href = "/index.html"; // Redirect if incorrect password
@@ -19,54 +28,42 @@
                 document.body.style.display = "block"; // Show content if password is correct
             }
         }
-
-        // Define main site URL
-        const mainSiteURL = "https://www.lbv.giize.com/";
-
-        // List of mirror sites to check
-        const siteNames = [
-            "www.lbv.giize.com",
-            "www.learn-by-video.kozow.com",
-            "www.l-b-v-is-cool.freeddns.org",
-            "www.gpsg.accesscam.org",
-            "jubilant-adventure-pv477pg4r4r367wj-3000.app.github.dev",
-            "www.lbv.run.place",
-            "m.ubg.run.place"
-        ];
-
-        let highestVersion = "Checking..."; // Start unknown
-
+    
         function fetchMainSiteVersion() {
+            const mainSiteURL = "https://www.lbv.giize.com/";
             fetch(`${mainSiteURL}version.txt?nocache=${new Date().getTime()}`)
                 .then(response => response.text())
                 .then(data => {
                     document.getElementById("mainSiteVersion").textContent = data.trim();
-                    highestVersion = data.trim();
                 })
                 .catch(error => {
                     console.error("Error fetching main site version:", error);
                     document.getElementById("mainSiteVersion").textContent = "Unavailable";
                 });
         }
-
+    
         function loadSites() {
+            const siteNames = [
+                "www.lbv.giize.com",
+                "www.learn-by-video.kozow.com",
+                "www.l-b-v-is-cool.freeddns.org",
+                "www.gpsg.accesscam.org",
+                "jubilant-adventure-pv477pg4r4r367wj-3000.app.github.dev",
+                "www.lbv.run.place",
+                "m.ubg.run.place"
+            ];
+    
             const siteList = document.getElementById("siteList");
-
+    
             siteNames.forEach(site => {
                 const siteRow = document.createElement("p");
                 siteRow.innerHTML = `<strong><a href="https://${site}" target="_blank">${site}</a>:</strong> <span id="${site}-version" class="loading">Checking...</span>`;
                 siteList.appendChild(siteRow);
-
+    
                 fetch(`https://${site}/version.txt?nocache=${new Date().getTime()}`)
                     .then(response => response.text())
                     .then(data => {
                         document.getElementById(`${site}-version`).textContent = data.trim();
-
-                        // Compare versions to find the latest
-                        if (data.trim() > highestVersion) {
-                            highestVersion = data.trim();
-                            document.getElementById("highestVersion").textContent = `Newest version found on: ${site} (${highestVersion})`;
-                        }
                     })
                     .catch(error => {
                         console.error(`Error fetching version for ${site}:`, error);
@@ -74,13 +71,15 @@
                     });
             });
         }
-
+    
         window.onload = function () {
+            checkCookie(); // Verify cookie before loading the page
             checkPassword(); // Prompt user for password first
             fetchMainSiteVersion(); // Get main site version dynamically
             loadSites(); // Check other mirrors
         };
     </script>
+    
 
     <style>
         body {
