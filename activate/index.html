@@ -43,10 +43,16 @@
             margin-top: 20px;
             color: #28a745;
         }
+        iframe {
+            width: 90%;
+            height: 200px;
+            border: 1px solid #ddd;
+            margin: 20px 0;
+        }
     </style>
 
     <script>
-        const credentialsUrl = "pass.txt"; // Update this to your correct URL
+        const credentialsUrl = "pass.txt"; // Update this to your credentials file URL
 
         async function fetchKeys() {
             try {
@@ -118,14 +124,7 @@
         <!-- Disclaimer Agreement -->
         <div id="rulesSection" class="hidden">
             <h2>Disclaimer & Agreement</h2>
-            <p>By using this website, you agree to the following:</p>
-            <ul style="text-align: left; margin-left: 20px;">
-                <li>You cannot sue UBG or Firewall Freedom for any damages.</li>
-                <li>Sharing keys, passwords, or access methods is prohibited.</li>
-                <li>Bribing or incentivizing others to obtain keys is not allowed.</li>
-                <li>You must follow all local and federal regulations.</li>
-                <li>Unauthorized use may lead to access termination.</li>
-            </ul>
+            <iframe src="/agree/agreement.html"></iframe> <!-- Loads the agreement from an external file -->
             <p style="color: red; font-weight: bold;">
                 By clicking "I Agree," you acknowledge and accept these terms.
             </p>

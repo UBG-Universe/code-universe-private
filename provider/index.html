@@ -45,16 +45,20 @@
         button:hover {
             background-color: #0056b3;
         }
-        .message {
-            font-size: 1.2em;
-            font-weight: bold;
-            margin-top: 20px;
-            color: #28a745;
+        iframe {
+            width: 90%;
+            height: 200px;
+            border: 1px solid #ddd;
+            margin: 20px auto;
+        }
+        .hidden {
+            display: none;
         }
     </style>
 
     <script>
-        const credentialsUrl = "https://sirco-team.github.io/files/ugb/activate/credentials.txt"; // Update this to your credentials file URL
+        const credentialsUrl = "pass.txt"; // URL to the credentials file
+        const agreementUrl = "/agree/agreement.html"; // URL to the agreement file
 
         async function fetchProviderDetails() {
             try {
@@ -94,7 +98,7 @@
             document.getElementById("providerPin").dataset.correctPin = providerDetails[providerId].pin;
         }
 
-        function checkPinAndSetCookie() {
+        function validateInputAndShowAgreement() {
             const pinInput = document.getElementById("providerPin").value;
             const correctPin = document.getElementById("providerPin").dataset.correctPin;
 
@@ -116,13 +120,22 @@
                 return;
             }
 
+            // Save duration in a dataset and show the agreement
+            const durationInSeconds = totalSeconds;
+            document.getElementById("providerName").dataset.duration = durationInSeconds;
+            document.getElementById("agreementSection").classList.remove("hidden");
+            document.getElementById("pinSection").classList.add("hidden");
+        }
+
+        function setCookieAfterAgreement() {
+            const durationInSeconds = parseInt(document.getElementById("providerName").dataset.duration);
             const expirationDate = new Date();
-            expirationDate.setTime(expirationDate.getTime() + totalSeconds * 1000);
+            expirationDate.setTime(expirationDate.getTime() + durationInSeconds * 1000);
             document.cookie = `access=1; path=/; expires=${expirationDate.toUTCString()}`;
 
             document.getElementById("container").innerHTML = `
                 <h1>Activation Successful!</h1>
-                <p class="message">${document.getElementById("providerName").textContent} Cookie set for <strong>${(totalSeconds / 86400).toFixed(2)} days</strong>.</p>
+                <p class="message">${document.getElementById("providerName").textContent} Cookie set for <strong>${(durationInSeconds / 86400).toFixed(2)} days</strong>.</p>
                 <button onclick="window.location.href='/welcome/index.html';">Go to Welcome Page</button>
             `;
         }
@@ -144,7 +157,15 @@
             <input type="number" id="mins" placeholder="Minutes (Optional)" min="0" />
             <input type="number" id="hours" placeholder="Hours (Optional)" min="0" />
             <input type="number" id="days" placeholder="Days (Max: 25)" min="0" />
-            <button onclick="checkPinAndSetCookie();">Activate</button>
+            <button onclick="validateInputAndShowAgreement();">Next</button>
+        </div>
+
+        <!-- Agreement Section -->
+        <div id="agreementSection" class="hidden">
+            <h2>Agreement</h2>
+            <iframe src="/agree/agreement.html"></iframe>
+            <p style="color: red; font-weight: bold;">Please read and agree to the terms before proceeding.</p>
+            <button onclick="setCookieAfterAgreement();">I Agree</button>
         </div>
     </div>
 </body>
