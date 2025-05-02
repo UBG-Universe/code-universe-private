@@ -45,20 +45,24 @@
         button:hover {
             background-color: #0056b3;
         }
-        iframe {
-            width: 90%;
-            height: 200px;
-            border: 1px solid #ddd;
-            margin: 20px auto;
-        }
         .hidden {
             display: none;
+        }
+        .agreement-link {
+            display: block;
+            margin-top: 15px;
+            font-size: 1em;
+            color: #007bff;
+            text-decoration: none;
+        }
+        .agreement-link:hover {
+            text-decoration: underline;
         }
     </style>
 
     <script>
-        const credentialsUrl = "pass.txt"; // URL to the credentials file
-        const agreementUrl = "/agree/agreement.html"; // URL to the agreement file
+        const credentialsUrl = "credentials.txt";
+        const agreementUrl = "/agree/agreement.html";
 
         async function fetchProviderDetails() {
             try {
@@ -120,9 +124,7 @@
                 return;
             }
 
-            // Save duration in a dataset and show the agreement
-            const durationInSeconds = totalSeconds;
-            document.getElementById("providerName").dataset.duration = durationInSeconds;
+            document.getElementById("providerName").dataset.duration = totalSeconds;
             document.getElementById("agreementSection").classList.remove("hidden");
             document.getElementById("pinSection").classList.add("hidden");
         }
@@ -163,7 +165,7 @@
         <!-- Agreement Section -->
         <div id="agreementSection" class="hidden">
             <h2>Agreement</h2>
-            <iframe src="/agree/agreement.html"></iframe>
+            <a href="/agree/agreement.html" target="_blank" class="agreement-link">Read the Agreement</a>
             <p style="color: red; font-weight: bold;">Please read and agree to the terms before proceeding.</p>
             <button onclick="setCookieAfterAgreement();">I Agree</button>
         </div>
